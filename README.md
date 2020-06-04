@@ -18,27 +18,42 @@ Global dependencies can be written with self invoke func to expcilitly state the
 this will crash in other evironment, WebWorker on node. Find a way to pass dependencies
 gracefully.
 
+We can store dependecies in App similar to storage and renderer and pass it
+with app: app.document, app.JSON. This way we don't need self invoked function.
+Or somethink like app.nativeAPI.
+
+## State
+
+Every component responsible for won state. 2 options:
+ - state can be passed with each listener and saved in listentener management db
+ - state can be used as global app dep (app.state = new State()) and store each state
+ - (tapable)?
+
 ## TODO:
 
-  How DOM should be rendered. 2 options:
+  - TypeScript types
+
+  - How DOM should be rendered. 2 options:
    - Class that responsible for all DOM manipulations Each component should be responsible
    - for own manipulation
 
-  dep should use this.app.on and so on
+  - dep should use this.app.on and so on
 
-    How DOM should be rendered. 2 options:
+  - How DOM should be rendered. 2 options:
      - Class that responsible for all DOM manipulations Each component should be
      - responsible for own manipulation
 
-  there should be possible to track current branch
+ - there should be possible to track current branch
 
-  presentation should be easy tracebale, so we should be able to see the deps or priority
+ - presentation should be easy tracebale, so we should be able to see the deps or priority
   queue as in trello
 
- create bem like classes in html prefixes to eliminate collisions
+ - create bem like classes in html prefixes to eliminate collisions
 
- link zoom in animation https://www.youtube.com/watch?v=BJ27r6YGpAs
+ - link zoom in animation https://www.youtube.com/watch?v=BJ27r6YGpAs
 
- https://www.youtube.com/watch?v=vxOffM_tVHI
+ - https://www.youtube.com/watch?v=vxOffM_tVHI
 
- https://eugeneyan.com/2020/04/05/note-taking-zettelkasten/
+ - https://eugeneyan.com/2020/04/05/note-taking-zettelkasten/
+
+ - Move fonts to app, change
