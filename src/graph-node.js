@@ -21,7 +21,6 @@ class GraphEl {
 }
 export default class GraphNode {
   constructor(app) {
-    console.info(app);
     this.app = app;
   }
   init() {

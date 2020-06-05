@@ -1,11 +1,9 @@
 export default (function(document) {
 
   //TODO: This class is unaware of DOM and only uses renderer
-  // HOW CAN IT USE IT?
 
   class Component {
     constructor(app, state={}) {
-      console.info(this);
       this.app = app;
       // TODO: Render is not defined here (startup of Render class)
       this.renderer = app.renderer;

@@ -36,9 +36,7 @@ export default (function(window, document, M) {
       //TODO: move to base comp
       let nodeContainer = this.queryCmp('graph-note-list');
       let nodes = this.app.storage.getMap();
-      console.info(nodes);
       for (const [k,v] of nodes) {
-        console.info(k);
         // interpolate html <= context
         //nodeContainer.appendChild(new NodeComponent(node));
         //nodeContainer.appendChild(node.header);
