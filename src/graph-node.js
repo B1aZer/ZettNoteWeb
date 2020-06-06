@@ -1,5 +1,7 @@
 import Observable from './utils/observable.js';
 
+//TODO: obosolete, marked for removal
+
 //TODO: create storage class
 class GraphEl {
   constructor(params) {

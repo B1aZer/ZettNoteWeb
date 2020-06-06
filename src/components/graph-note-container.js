@@ -1,6 +1,8 @@
 import html from './graph-note-container.html';
 import Component from './component.js';
 import AddBtnComponent from './graph-note-add-btn.js';
+import CreateScreenComponent from './graph-note-create-screen.js';
+import NodeListComponent from './graph-note-list.js';
 
 export default class ContainerComponent extends Component {
 
@@ -9,34 +11,29 @@ export default class ContainerComponent extends Component {
   construct() {
     this.name = 'graph-note-container';
     this.dom = this.renderFragment(html);
-    this.components = [AddBtnComponent];
-
-    // TODO: move to Component
-    this.renderComponents();
+    this.components = [AddBtnComponent, CreateScreenComponent, NodeListComponent];
   }
   bindEvents() {
   }
   mutateState() {
   }
   bindListeners() {
+    // Materialize init
+    let elems = this.el('.fixed-action-btn');
+    let instances = this.app.M.FloatingActionButton.init(elems, []);
+
     let welcomeEl = this.el('.graph-note-welcome');
-    //TODO: move to create screen component
-    // let createEl = this.el('.graph-note-create-screen');
-    // let iconEl = this.el('.graph-note-add');
+    let listEl = this.el('.graph-note-node-list');
+
     this.app.on('graph-note-add', () => {
       welcomeEl.classList.add('scale-out');
-      // createEl.classList.remove('scale-out');
-      // TODO: move to add-btn-component
-      // iconEl.textContent = 'check';
+      listEl.classList.add('scale-out');
+      listEl.classList.add('hide');
     });
-    /*
-     * TODO:
     this.app.on('graph-note-create', () => {
-      createEl.classList.add('scale-out');
       welcomeEl.classList.remove('scale-out');
-      // TODO: move to add-btn-component
-      iconEl.textContent = 'mode_edit';
+      listEl.classList.remove('hide');
+      listEl.classList.remove('scale-out');
     });
-   */
   }
 }

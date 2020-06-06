@@ -1,6 +1,11 @@
 export default (function(document) {
 
-  //TODO: This class is unaware of DOM and only uses renderer
+  /*
+   * Component
+   *
+   * TODO: This class is unaware of DOM and only uses renderer
+   *
+   */
 
   class Component {
     constructor(app, state={}) {
@@ -13,12 +18,17 @@ export default (function(document) {
       this.dom = null;
       this.components = [];
 
-      this.construct();
+      this.constructComponents();
       this.bindEvents();
+      this.mutateState();
       this.bindListeners();
     }
     construct() {
       // pass
+    }
+    constructComponents() {
+      this.construct();
+      this.renderComponents();
     }
     el(q) {
       //TODO to renderer
@@ -32,19 +42,28 @@ export default (function(document) {
       this.addEventListener(name, callback);
     }
     bindEvents() {
-      // pass
+      // pure
+      //
       // Side (DOM) -> App
       // state unaware only fires events
     }
     mutateState() {
+      // pure: state -> new state
+      //
       // we can mutate state here based on event
+      //
+      // e => state change
+      //
       // TODO:
       // do we need this mthod since we don't have
       // automatic state -> DOM bindings
       // and we actually dont need them because we don't depend on DOM
     }
     bindListeners() {
-      // pass
+      // impure, async db,dom manipulations
+      //
+      // state => manipulation
+      //
       // App -> Side (DOM, Canvas, DB)
       // we can probably merge mutateState here
       //
@@ -80,7 +99,7 @@ export default (function(document) {
         let baseCmp = new comp(this.app);
         let baseNode = this.renderer.queryCmpv2(this.dom, baseCmp.name);
         //TODO: use renderer
-        this.renderer.replace(baseCmp.render(), baseNode);
+        this.renderer.append(baseCmp.render(), baseNode);
         //btnCmpNode.appendChild(btnCmp.render());
       }
     }

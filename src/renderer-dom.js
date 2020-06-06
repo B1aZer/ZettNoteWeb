@@ -1,12 +1,13 @@
 // TODO: Split class to actual renderer and main component
 
-export default (function(window, document, M) {
+export default (function(document) {
 
   /**
    * RendererDOM
    *
    * Class is responsible for accessing DOM API
-   * and rendering base component
+   *
+   * Sublassed by Component
    *
    */
   class RendererDOM {
@@ -22,28 +23,25 @@ export default (function(window, document, M) {
     queryCmpv2(doc, q) {
       return doc.querySelector(q);
     }
-    bindSideEvents() {
-      //TODO: move to base comp
-      // materialize init
-      let elems = this.query('.fixed-action-btn');
-      let instances = M.FloatingActionButton.init(elems, []);
-
+    classAdd(classText, node) {
+      node.classList.add(classText);
     }
-    replace(documentFragment, node) {
+    classRemove(classText, node) {
+      node.classList.remove(classText);
+    }
+    prepend(documentFragment, node) {
+      let firstEl = node.firstChild;
+      node.insertBefore(documentFragment, firstEl);
+    }
+    append(documentFragment, node) {
+      //TODO: make actual replace
       node.appendChild(documentFragment);
     }
-    renderNodes() {
-      //TODO: move to base comp
-      let nodeContainer = this.queryCmp('graph-note-list');
-      let nodes = this.app.storage.getMap();
-      for (const [k,v] of nodes) {
-        // interpolate html <= context
-        //nodeContainer.appendChild(new NodeComponent(node));
-        //nodeContainer.appendChild(node.header);
-      }
+    set(text, node) {
+      node.textContent = text;
     }
   }
 
   return RendererDOM;
 
-})(window, document, window.M)
+})(document)

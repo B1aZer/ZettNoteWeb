@@ -1,5 +1,7 @@
 export default ( function(window, Array, JSON) {
 
+//TODO: use promises since it's a side effect system
+
 let BUCKET_NAME = 'nodes';
 
 class StorageLocal {
