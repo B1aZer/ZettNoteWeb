@@ -5,7 +5,20 @@ import StorageLocal from './storage-local.js';
 import RendererDOM from './renderer-dom.js';
 import ContainerComponent from './components/graph-note-container.js';
 
+// TS2339: window.M fix
+declare const window: any;
+declare const String: any;
+declare const Object: any;
+
 window.addEventListener('DOMContentLoaded', startup);
+
+// Minimal string interpolation, possibly unsafe, does not really matter due to
+// local bahavior
+String.prototype.interpolate = function(params) {
+  const names = Object.keys(params);
+  const vals = Object.values(params);
+  return new Function(...names, `return \`${this}\`;`)(...vals);
+}
 
 export default class App extends Observable {
 
@@ -14,6 +27,7 @@ export default class App extends Observable {
   version;
   storage;
   renderer;
+  M;
 
   constructor(params: Object) {
     super();
@@ -28,6 +42,8 @@ export default class App extends Observable {
     // passing state and global methods to every dependency
     //this.graph = GraphNode.create(this);
 
+    this.M = window.M;
+
     //this.storage = new IndexedStorage(this);
     this.storage = new StorageLocal(this);
 
@@ -38,6 +54,8 @@ export default class App extends Observable {
     let baseComponent = new ContainerComponent(this);
     let baseCmpNode = this.renderer.queryCmp(baseComponent.name);
     baseCmpNode.appendChild(baseComponent.render());
+
+
   }
 }
 
