@@ -29,9 +29,29 @@ Every component responsible for won state. 2 options:
  - state can be used as global app dep (app.state = new State()) and store each state
  - (tapable)?
 
+## How relationship would work
+
+ - tags
+ - there should be one way directions and 2 way diections
+ - how to set up a relation?
+
+## Animation
+
+  3 state transition:
+
+    - Create item ->
+    - minimize to center ->
+    - Transition to canvas (seamlessly), show other elements
+
 ## TODO:
 
   - TypeScript types
+
+  - WebComponents
+
+  - Revision history
+
+  - We can inplment evnt interception that would modify event arguments
 
   - How DOM should be rendered. 2 options:
    - Class that responsible for all DOM manipulations Each component should be responsible
