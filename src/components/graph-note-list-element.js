@@ -15,10 +15,10 @@ export default class NodeListElementComponent extends Component {
     let delBtn = this.el('.remove-btn');
 
     minBtn.addEvent('click', (e) => {
-      this.minimizeEl();
+      this.minimizeEl(listEl);
     });
     maxBtn.addEvent('click', (e) => {
-      this.maximizeEl();
+      this.maximizeEl(listEl);
     });
     delBtn.addEvent('click', (e) => {
       // TODO: delete what
@@ -31,15 +31,15 @@ export default class NodeListElementComponent extends Component {
     });
   }
   bindListeners() {
-    this.on('graph-note-created', (obj) => {
+    this.app.on('graph-note-created', (obj) => {
     });
   }
-  minimizeEl() {
+  minimizeEl(el) {
     this.state.min = true;
-    this.app.renderer.classAdd('minimize', listEl);
+    this.app.renderer.classAdd('minimize', el);
   }
-  maximizeEl() {
+  maximizeEl(el) {
     this.state.min = false;
-    this.app.renderer.classRemove('minimize', listEl);
+    this.app.renderer.classRemove('minimize', el);
   }
 }

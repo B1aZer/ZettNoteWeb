@@ -43,7 +43,11 @@ Every component responsible for won state. 2 options:
     - minimize to center ->
     - Transition to canvas (seamlessly), show other elements
 
+  When item is marked completed we can transition line that connects 2 items.
+
 ## TODO:
+
+  - Write webpack plugin to automatically insert html templates into components
 
   - TypeScript types
 

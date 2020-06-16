@@ -1,6 +1,9 @@
-// this class should not know about window,document or any DOM API
-// it should be possible to change rederer to canvas and it will just work
-class GraphNoteNode extends RendererDOM {
-  render() {
+import html from './graph-note-node.html';
+import Component from './component.js';
+
+export default class GraphNoteNode extends Component {
+  construct() {
+    this.name = 'graph-note-node';
+    this.dom = this.renderFragment(html.interpolate(this.state));
   }
 }

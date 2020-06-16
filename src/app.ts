@@ -12,8 +12,8 @@ declare const Object: any;
 
 window.addEventListener('DOMContentLoaded', startup);
 
-// Minimal string interpolation, possibly unsafe, does not really matter due to
-// local bahavior
+// Minimal string interpolation, possibly unsafe
+// Does not really matter due to local bahavior
 String.prototype.interpolate = function(params) {
   const names = Object.keys(params);
   const vals = Object.values(params);
@@ -55,6 +55,7 @@ export default class App extends Observable {
     let baseCmpNode = this.renderer.queryCmp(baseComponent.name);
     baseCmpNode.appendChild(baseComponent.render());
 
+    this.fireEvent('graph-note-init', null);
 
   }
 }
