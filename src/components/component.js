@@ -24,6 +24,8 @@ export default (function(document) {
       this.bindListeners();
     }
     construct() {
+      // This method implementd by children
+      // creates DOM from html
       // pass
     }
     constructComponents() {

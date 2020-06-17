@@ -37,6 +37,9 @@ export default (function(document) {
       //TODO: make actual replace
       node.appendChild(documentFragment);
     }
+    replace(documentFragment, oldNode, parentNode) {
+      parentNode.replaceChild(documentFragment, oldNode);
+    }
     set(text, node) {
       node.textContent = text;
     }
