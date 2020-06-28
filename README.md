@@ -6,6 +6,38 @@
   allows to use WebService or Assembly.  Use OOP for constructions, FP for behavior.
  - Either don't track state or track all state.
 
+ The main postulates:
+
+ - Think of js program as js worker. It as a standalone worker that is seprate from client
+     app. Client app is a browser runtime that user intercats with. User can change any
+     state in it as how he pleases. We only care about few events from that environment
+     that we subscribed to using browser API.
+ - Every subscribed event from client app triggers global event. This event may or may not
+     change state of js worker, but worker and all it's subworkers should be aware of the
+     event and may or may not subscribe to it. Components subscribe to events using
+     bindEvents method. This method if free of any side effects.
+     Client app -> Js worker (bindEvents).
+ - Components subscribe to events in bindListeners method. This method can involve side
+     effects. Think of it as function that takes current state and produces either the
+     same state of new state.
+     Js worker -> Client app (bindListeners)
+ - We want to make app state navigatable, meaning it should be possible to go backwards
+     and forward in state history. To achieve this we can track all fired events and their
+     arguments. To go backwards we fire previous event. This solution won't work with
+     state mutating components, as they may mutate state in less desired way, say append
+     new item to the list of items. To fix these we can:
+
+      - Do not replay such callbacks during state transition
+      - Rely on immutablity
+
+ - Immutability should be the goal of any state transition. If we mutate any state we
+     should be confident and does not provide side effects. One way to do it is to use
+     immutable techniques. This also relates to any side methods, like DOM, network, db.
+     If we mutate DOM, for example we should think of it as immutable structure. We can't
+     append to immutable structure but we can delete it and replace with new.
+
+## Share db across devices
+
 ## Initialization:
 
  [x] constructor (can't be inherited easily)

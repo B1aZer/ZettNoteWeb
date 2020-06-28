@@ -6,7 +6,7 @@ import GraphNoteNodeView from './graph-note-node-view.js'
 
 export default class NodeListComponent extends Component {
 
-  construct() {
+  init() {
     this.name = 'graph-note-list';
     this.dom = this.renderFragment(html);
   }

@@ -1,4 +1,4 @@
-const listeners = new Map();
+const interceptors = new Map();
 // TODO: create a state history
 // each fireEvent creates new state with extState
 // save each state based either on Class that fired state or page
@@ -7,28 +7,44 @@ const states = new Map();
 let stateStart = 0;
 
 export default class Observable {
+  constructor() {
+    this.listeners = new Map();
+  }
   on(name, f) {
-    if (!listeners.has(name)) {
-      listeners.set(name, new Set());
+    if (!this.listeners.has(name)) {
+      this.listeners.set(name, new Set());
     }
-    listeners.get(name).add(f);
+    this.listeners.get(name).add(f);
     return this.off(name, f);
+  }
+  // bofore,after,...
+  //TODO: rename to tap?
+  intercept(name, f) {
+    //ony one interecpt is allowed to eliminate race conditions
+    if (interceptors.has(name)) {
+      throw new Error('Only one interceptor is allowed!');
+    }
+    interceptors.set(name, f);
   }
   off(name, f) {
     // TODO
-    if (listeners.has(name)) {
-      listeners.get(name);
+    if (this.listeners.has(name)) {
+      this.listeners.get(name);
     }
   }
   fireEvent(name, extData, save=true) {
-    if (listeners.has(name)) {
+    if (this.listeners.has(name)) {
       if (save) {
         stateStart++;
         states.set(stateStart, {name, extData});
       }
       console.info(Array.from(states));
-      for (let f of listeners.get(name)) {
-        f(extData);
+      for (let f of this.listeners.get(name)) {
+        if (interceptors.has(name)) {
+          f(interceptors.get(name)(extData));
+        } else {
+          f(extData);
+        }
       }
     }
   }

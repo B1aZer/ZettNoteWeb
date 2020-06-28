@@ -1,4 +1,6 @@
-export default (function(document) {
+import Observable from '../utils/observable.js';
+
+export default (function(document, Observable) {
 
   /*
    * Component
@@ -10,27 +12,89 @@ export default (function(document) {
   class Component {
     constructor(app, state={}) {
       this.app = app;
-      // TODO: Render is not defined here (startup of Render class)
       this.renderer = app.renderer;
-      this.state = state;
       this.name = '';
-      // TODO: can be not dom, rename
       this.dom = null;
       this.components = [];
 
+      this.state = {};
+      //TODO: https://redux.js.org/recipes/implementing-undo-history
+      this.stateHistory = {
+        past: [],
+        present: null,
+        future: [],
+      }
+
+      // TODO: use proxy to possibly see any changes
+      //
+      this.observable = new Observable();
+
+      // TODO: abstract
+      Object.defineProperty(this.state, 'name', {
+        value: null,
+        writable: true,
+      });
+
+      Object.defineProperty(this.state, 'data', {
+        value: {},
+        writable: true,
+      });
+
+      Object.defineProperty(this.state, 'on', {
+        value: (name, f) => this.observable.on(name, f),
+        writable: true,
+      });
+
+
+      // this.state.data
+      //this.stateData = {};
+      // this.state.actions
+      //this.stateActions = {};
+      //possibly merge wiht above
+      this.stateActionsOnExit = {};
+      this.stateActionsOnEnter = {};
+
+      // private
       this.constructComponents();
+
       this.bindEvents();
       this.mutateState();
       this.bindListeners();
     }
-    construct() {
-      // This method implementd by children
+    init() {
+      // This method is implemented by children
       // creates DOM from html
-      // pass
     }
+    changeComponentStateTo(newState) {
+      this.observable.fireEvent(newState);
+      this.state.name = newState;
+    }
+    /*
+    changeComponentStateTo(newState) {
+      let hash = new Hash(); //or index
+      this.prev = this.prev.slice(1,this.prev.lenth);
+      this.prev = {
+        stateData = this.stateData;
+      j
+      //push history change 
+      History[hash] = this.prev;
+      for action in this.onExit() {
+        action()
+      }
+      this.sate = newState;
+      for action in this.onEnter() {
+        action()
+      }
+      this.pres = this.state;
+    }
+   */
     constructComponents() {
-      this.construct();
+      this.init();
       this.renderComponents();
+    }
+    getState() {
+      //TODO
+      return this.state;
     }
     el(q) {
       //TODO to renderer
@@ -109,4 +173,4 @@ export default (function(document) {
 
   return Component;
 
-})(document)
+})(document, Observable)

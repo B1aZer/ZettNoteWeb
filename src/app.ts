@@ -1,9 +1,7 @@
 import Observable from './utils/observable.js';
-//TODO: check
-import GraphNode from './graph-node.js';
 import StorageLocal from './storage-local.js';
 import RendererDOM from './renderer-dom.js';
-import ContainerComponent from './components/graph-note-container.js';
+import RootComponent from './components/graph-note-root.js';
 
 // TS2339: window.M fix
 declare const window: any;
@@ -14,6 +12,7 @@ window.addEventListener('DOMContentLoaded', startup);
 
 // Minimal string interpolation, possibly unsafe
 // Does not really matter due to local bahavior
+// TODO: move to utils
 String.prototype.interpolate = function(params) {
   const names = Object.keys(params);
   const vals = Object.values(params);
@@ -33,6 +32,8 @@ export default class App extends Observable {
     super();
     this.version = '0.0.1';
     this.init();
+    this.renderRoot();
+    this.fireEvent('graph-note-init', null);
   }
   static create() {
     let privateParams = {};
@@ -49,14 +50,11 @@ export default class App extends Observable {
 
     //this.renderer = new RendererConsole(this);
     this.renderer = new RendererDOM(this);
-
-    // TODO: abstract
-    let baseComponent = new ContainerComponent(this);
+  }
+  renderRoot() {
+    let baseComponent = new RootComponent(this);
     let baseCmpNode = this.renderer.queryCmp(baseComponent.name);
     baseCmpNode.appendChild(baseComponent.render());
-
-    this.fireEvent('graph-note-init', null);
-
   }
 }
 

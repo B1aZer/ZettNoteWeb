@@ -4,7 +4,7 @@ import './graph-note-list-element.css';
 
 export default class NodeListElementComponent extends Component {
 
-  construct() {
+  init() {
     this.name = 'graph-note-list-element';
     this.dom = this.renderFragment(html.interpolate(this.state));
   }

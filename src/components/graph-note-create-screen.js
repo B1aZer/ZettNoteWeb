@@ -7,7 +7,7 @@ export default class CreateScreenComponent extends Component {
 
   // TODO: This class unaware of renderer and uses component
 
-  construct() {
+  init() {
     this.name = 'graph-note-create-screen';
     this.dom = this.renderFragment(html);
   }
