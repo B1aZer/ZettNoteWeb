@@ -1,5 +1,5 @@
 import html from './graph-note-add-btn.html';
-import Component from './component.js';
+import Component from './component';
 
 export default class AddBtnComponent extends Component {
   init() {

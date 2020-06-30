@@ -56,7 +56,7 @@ export default class App extends Observable {
     this.renderer = new RendererDOM(this);
 
     this.renderRoot();
-    this.fireEvent('graph-note-init', null);
+    this.fireEvent('graph-note-init');
   }
   renderRoot() {
     let baseComponent = new RootComponent(this);

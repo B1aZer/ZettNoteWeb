@@ -1,5 +1,5 @@
 import html from './graph-note-list.html';
-import Component from './component.js';
+import Component from './component';
 import NodeListElementComponent from './graph-note-list-element.js'
 import GraphNoteNode from './graph-note-node.js'
 import GraphNoteNodeView from './graph-note-node-view.js'

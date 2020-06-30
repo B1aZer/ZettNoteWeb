@@ -1,5 +1,5 @@
 import html from './graph-note-list-element.html';
-import Component from './component.js';
+import Component from './component';
 import './graph-note-list-element.css';
 
 export default class NodeListElementComponent extends Component {

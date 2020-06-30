@@ -33,6 +33,9 @@ export default (function(document) {
       let firstEl = node.firstChild;
       node.insertBefore(documentFragment, firstEl);
     }
+    addEvent(name, callback) {
+      this.addEventListener(name, callback);
+    }
     append(documentFragment, node) {
       //TODO: make actual replace
       node.appendChild(documentFragment);

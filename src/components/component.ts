@@ -10,6 +10,15 @@ export default (function(document, Observable) {
    */
 
   class Component {
+    app: any;
+    renderer: any;
+    name: String;
+    dom: any;
+    components: Array<typeof Component>;
+    state: any;
+    stateHistory: any;
+    observable: Observable;
+
     constructor(app, state={}) {
       this.app = app;
       this.renderer = app.renderer;
@@ -51,8 +60,8 @@ export default (function(document, Observable) {
       // this.state.actions
       //this.stateActions = {};
       //possibly merge wiht above
-      this.stateActionsOnExit = {};
-      this.stateActionsOnEnter = {};
+      //this.stateActionsOnExit = {};
+      //this.stateActionsOnEnter = {};
 
       // private
       this.constructComponents();
@@ -105,12 +114,8 @@ export default (function(document, Observable) {
       //TODO to renderer
       // what is queryselector?
       let element = this.dom.querySelector(q);
-      element.addEvent = this.addEvent.bind(element);
+      element.addEvent = this.renderer.addEvent.bind(element);
       return element;
-    }
-    addEvent(name, callback) {
-      // to renderer
-      this.addEventListener(name, callback);
     }
     bindEvents() {
       // pure
@@ -156,7 +161,7 @@ export default (function(document, Observable) {
       return rendered;
     }
     // TODO move to render
-    renderComponents(t) {
+    renderComponents() {
       // component <- DOM elements from inner components
       //
       // this method would take renderer API and render inner components to self

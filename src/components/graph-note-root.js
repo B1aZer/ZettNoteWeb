@@ -1,5 +1,5 @@
 import html from './graph-note-root.html';
-import Component from './component.js';
+import Component from './component';
 import AddBtnComponent from './graph-note-add-btn.js';
 import CreateScreenComponent from './graph-note-create-screen.js';
 import NodeListComponent from './graph-note-list.js';

@@ -1,5 +1,5 @@
 import html from './graph-note-node-view.html';
-import Component from './component.js';
+import Component from './component';
 
 export default class GraphNoteNodeView extends Component {
   init() {

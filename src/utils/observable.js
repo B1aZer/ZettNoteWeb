@@ -32,18 +32,13 @@ export default class Observable {
       this.listeners.get(name);
     }
   }
-  fireEvent(name, extData, save=true) {
+  fireEvent(name) {
     if (this.listeners.has(name)) {
-      if (save) {
-        stateStart++;
-        states.set(stateStart, {name, extData});
-      }
-      console.info(Array.from(states));
       for (let f of this.listeners.get(name)) {
         if (interceptors.has(name)) {
-          f(interceptors.get(name)(extData));
+          f(interceptors.get(name)());
         } else {
-          f(extData);
+          f();
         }
       }
     }

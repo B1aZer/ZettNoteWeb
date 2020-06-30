@@ -1,7 +1,7 @@
 import './graph-note-create-screen.css';
 import html from './graph-note-create-screen.html';
-import Component from './component.js';
-import GraphNode from '../graph-node.js';
+import Component from './component';
+import GraphNode from '../graph-node';
 
 export default class CreateScreenComponent extends Component {
 
