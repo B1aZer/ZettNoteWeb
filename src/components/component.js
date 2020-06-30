@@ -68,6 +68,11 @@ export default (function(document, Observable) {
     changeComponentStateTo(newState) {
       this.observable.fireEvent(newState);
       this.state.name = newState;
+      // TODO: move to renderer
+      // this will write to to history on each component change
+      // we can create start state history to control state more elegantly
+      console.info(this.state);
+      window.history.pushState({}, this.state.name, this.state.name);
     }
     /*
     changeComponentStateTo(newState) {

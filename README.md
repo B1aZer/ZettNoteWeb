@@ -81,7 +81,9 @@ Every component responsible for won state. 2 options:
 
   - Write webpack plugin to automatically insert html templates into components
 
-  - TypeScript types
+  - We can automatically create components from the HTML tags. parse html -> component create.
+
+  - TypeScript types. Render interface.
 
   - WebComponents
 

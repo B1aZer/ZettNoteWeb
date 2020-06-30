@@ -3,10 +3,14 @@ import StorageLocal from './storage-local.js';
 import RendererDOM from './renderer-dom.js';
 import RootComponent from './components/graph-note-root.js';
 
-// TS2339: window.M fix
-declare const window: any;
-declare const String: any;
-declare const Object: any;
+declare global {
+  interface Window {
+    M: any;
+  }
+  interface String {
+    interpolate (params: Object): Function;
+  }
+}
 
 window.addEventListener('DOMContentLoaded', startup);
 
@@ -22,22 +26,22 @@ String.prototype.interpolate = function(params) {
 export default class App extends Observable {
 
   // fixing TS2339
-  // "noImplicitAny": false, -> true
-  version;
-  storage;
-  renderer;
+  version: string;
+  // TODO: implements Storage
+  storage: any;
+  // TODO: implements Renderer
+  renderer: any;
   M;
 
   constructor(params: Object) {
     super();
     this.version = '0.0.1';
-    this.init();
-    this.renderRoot();
-    this.fireEvent('graph-note-init', null);
   }
   static create() {
     let privateParams = {};
-    return new App(privateParams);
+    let app = new App(privateParams);
+    app.init();
+    return app;
   }
   init() {
     // passing state and global methods to every dependency
@@ -50,6 +54,9 @@ export default class App extends Observable {
 
     //this.renderer = new RendererConsole(this);
     this.renderer = new RendererDOM(this);
+
+    this.renderRoot();
+    this.fireEvent('graph-note-init', null);
   }
   renderRoot() {
     let baseComponent = new RootComponent(this);
