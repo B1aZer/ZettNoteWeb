@@ -1,11 +1,12 @@
 import Observable from '../utils/observable.js';
+import {uuid} from '../utils/common';
 
 export default (function(document, Observable) {
 
   /*
    * Component
    *
-   * TODO: This class is unaware of DOM and only uses renderer
+   * This class is unaware of DOM and only uses renderer
    *
    */
 
@@ -26,42 +27,35 @@ export default (function(document, Observable) {
       this.dom = null;
       this.components = [];
 
-      this.state = {};
-      //TODO: https://redux.js.org/recipes/implementing-undo-history
-      this.stateHistory = {
-        past: [],
-        present: null,
-        future: [],
-      }
+      // READ ONLY
+      // pass state to child components
+      this.state = state;
+      // tracks state for each component
+      this.stateHistory = {};
 
-      // TODO: use proxy to possibly see any changes
-      //
+      // TODO: Proxy can be used to track changes
       this.observable = new Observable();
 
       // TODO: abstract
-      Object.defineProperty(this.state, 'name', {
-        value: null,
-        writable: true,
-      });
+      // if not child component, state empty
+      if (Object.keys(state).length === 0) {
+        Object.defineProperty(this.state, 'name', {
+          value: 'init',
+          writable: true,
+        });
 
-      Object.defineProperty(this.state, 'data', {
-        value: {},
-        writable: true,
-      });
+        Object.defineProperty(this.state, 'data', {
+          enumerable: true,
+          writable: true,
+        });
 
-      Object.defineProperty(this.state, 'on', {
-        value: (name, f) => this.observable.on(name, f),
-        writable: true,
-      });
+        Object.defineProperty(this.state, 'on', {
+          value: (name, f) => this.observable.on(name, f),
+          writable: false,
+        });
 
-
-      // this.state.data
-      //this.stateData = {};
-      // this.state.actions
-      //this.stateActions = {};
-      //possibly merge wiht above
-      //this.stateActionsOnExit = {};
-      //this.stateActionsOnEnter = {};
+        // TODO: add actions
+      }
 
       // private
       this.constructComponents();
@@ -69,27 +63,70 @@ export default (function(document, Observable) {
       this.bindEvents();
       this.mutateState();
       this.bindListeners();
+
+      // TODO: history TEST
+      /*
+      this.app.on('graph-note-history-change', () => {
+        let h = this.app.history.getStateData().hash;
+        console.info(h);
+        console.info(this.stateHistory);
+        console.warn(this.stateHistory[h]);
+        if (this.stateHistory[h]) {
+          this.changeComponentStateTo(this.stateHistory[h], false);
+        }
+      });
+       */
     }
     init() {
       // This method is implemented by children
       // creates DOM from html
     }
-    changeComponentStateTo(newState) {
+    // *** STATE ***
+    // TODO: move this methods to state class
+    // this.getStateData -> this.state.getData()
+    initState() {
+      // This method is implemented by children
+    }
+    getStateData() {
+      return this.state.data[this.state.name];
+    }
+    getStateName() {
+      return this.state.name;
+    }
+    /* This method chages state data,
+     * but leaves component state intact,
+     * You should manually call changeComponentStateTo
+     * to change state
+     */
+    runComponentAction(actionName) {
+      this.state.data[this.state.name] = this.state.actions[this.state.name][actionName](this.getStateData());
+    }
+    /* This methdod does not change state data in any way,
+     * we have actions for that,
+     * It saves current state and transitions state
+     */
+    changeComponentStateTo(newState, save=true) {
       this.observable.fireEvent(newState);
       this.state.name = newState;
       // TODO: move to renderer
       // this will write to to history on each component change
-      // we can create start state history to control state more elegantly
-      console.info(this.state);
-      window.history.pushState({}, this.state.name, this.state.name);
+      // we can create start state history method to control state more elegantly
+      // TODO: history
+      /*
+      let h = uuid(this.state.name);
+      if (save) {
+        this.stateHistory[h] = this.state.name;
+        this.app.history.saveState(this.state, h);
+      }
+       */
     }
-    /*
-    changeComponentStateTo(newState) {
+      /*
+    changeComponentStateTo_v0(newState) {
       let hash = new Hash(); //or index
       this.prev = this.prev.slice(1,this.prev.lenth);
       this.prev = {
         stateData = this.stateData;
-      j
+      }
       //push history change 
       History[hash] = this.prev;
       for action in this.onExit() {
@@ -101,18 +138,16 @@ export default (function(document, Observable) {
       }
       this.pres = this.state;
     }
-   */
+    */
+    // *** END STATE ***
     constructComponents() {
+      this.initState();
       this.init();
       this.renderComponents();
     }
-    getState() {
-      //TODO
-      return this.state;
-    }
     el(q) {
-      //TODO to renderer
-      // what is queryselector?
+      // TODO: to renderer
+      // what is queryselector, component does not know that
       let element = this.dom.querySelector(q);
       element.addEvent = this.renderer.addEvent.bind(element);
       return element;
@@ -136,7 +171,7 @@ export default (function(document, Observable) {
       // and we actually dont need them because we don't depend on DOM
     }
     bindListeners() {
-      // impure, async db,dom manipulations
+      // impure, async db, dom manipulations
       //
       // state => manipulation
       //
@@ -169,14 +204,12 @@ export default (function(document, Observable) {
       // this.renderer(el.class, el.render())
       //
       // cmp.render actually uses api.renderer
-      // too much deps
+      // this creates a lot of additional deps
       //
       for (let comp of this.components) {
-        let baseCmp = new comp(this.app);
+        let baseCmp = new comp(this.app, this.state);
         let baseNode = this.renderer.queryCmpv2(this.dom, baseCmp.name);
-        //TODO: use renderer
         this.renderer.append(baseCmp.render(), baseNode);
-        //btnCmpNode.appendChild(btnCmp.render());
       }
     }
   }

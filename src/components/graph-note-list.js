@@ -17,14 +17,6 @@ export default class NodeListComponent extends Component {
       let nodeEl = new GraphNoteNode(this.app, obj);
       this.app.renderer.prepend(nodeEl.render(), nodeContainer);
     })
-    this.app.on('graph-note-navigated', (graphNode) => {
-      //TODO: move to renderer
-      window.history.pushState({ data: 'navigating link' },`${graphNode.uuid}`, `/note/${graphNode.uuid}`);
-      let nodeEl = new GraphNoteNodeView(this.app, graphNode);
-      //TODO: move to renderer
-      nodeContainer.innerHTML = '';
-      this.app.renderer.append(nodeEl.render(), nodeContainer);
-    });
   }
   renderNodes() {
     let nodeContainer = this.el('.graph-note-node-list');

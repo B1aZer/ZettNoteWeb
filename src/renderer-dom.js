@@ -1,5 +1,3 @@
-// TODO: Split class to actual renderer and main component
-
 export default (function(document) {
 
   /**

@@ -1,7 +1,7 @@
+// One of the ideas was to track state based on fired events
+// Each new fired event creates new state
+// We can track input and output of the function as call fram of the stack
 const interceptors = new Map();
-// TODO: create a state history
-// each fireEvent creates new state with extState
-// save each state based either on Class that fired state or page
 const states = new Map();
 
 let stateStart = 0;
@@ -17,8 +17,7 @@ export default class Observable {
     this.listeners.get(name).add(f);
     return this.off(name, f);
   }
-  // bofore,after,...
-  //TODO: rename to tap?
+  //TODO: Create before, after, during methods
   intercept(name, f) {
     //ony one interecpt is allowed to eliminate race conditions
     if (interceptors.has(name)) {
@@ -43,6 +42,8 @@ export default class Observable {
       }
     }
   }
+  // state was moved to each component
+  /*
   state(name, extData) {
     switch(name) {
       case 'state-back':
@@ -58,4 +59,5 @@ export default class Observable {
         break;
     }
   }
+  */
 }
