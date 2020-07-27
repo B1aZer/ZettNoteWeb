@@ -20,11 +20,13 @@ TY.
 
 ## TODO
 
+ - [ ] component state vs storage state (create-screen.js)
+ - [ ] access other component state with getComponentState (create-screen.js)
  - [ ] State save/restore
- - [ ] state methods (see component STATE)
- - [ ] render list elements
+ - [ ] state methods (component.ts)
+ - [ ] render list elements (root.js, list.js)
  - [ ] Minimal UI, remove unnecessary elements, scr button, make input full screen
- - [ ] History state
+ - [ ] History state (grep history)
  - [ ] Dwarf fortress has filters for each evemt. Can we do it for before/atter events?
  - [ ] Rethink state and state transition. state compl, how do we save and restore data,actions,name?
  - [ ] it should be easy to remove components just from html markup, parse html and call

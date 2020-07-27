@@ -30,10 +30,6 @@ export default class NodeListElementComponent extends Component {
       this.app.fireEvent('graph-note-delete');
     });
   }
-  bindListeners() {
-    this.app.on('graph-note-created', (obj) => {
-    });
-  }
   minimizeEl(el) {
     this.state.min = true;
     this.app.renderer.classAdd('minimize', el);

@@ -14,7 +14,7 @@ export default class RootComponent extends Component {
   init() {
     this.name = 'graph-note-root';
     this.dom = this.renderFragment(html.interpolate(this.getStateData()));
-    this.components = [AddBtnComponent, CreateScreenComponent/* , NodeListComponent */];
+    this.components = [AddBtnComponent, CreateScreenComponent, NodeListComponent];
   }
   initState() {
     // STATE
@@ -81,18 +81,18 @@ export default class RootComponent extends Component {
   }
   bindListeners() {
     let welcomeEl = this.el('.graph-note-welcome');
-    //let listEl = this.el('.graph-note-node-list');
+    let listEl = this.el('.graph-note-node-list');
     this.state.on('create', () => {
       welcomeEl.classList.add('scale-out');
       welcomeEl.classList.add('hide');
-      //listEl.classList.add('scale-out');
-      //listEl.classList.add('hide');
+      listEl.classList.add('scale-out');
+      listEl.classList.add('hide');
     });
     this.state.on('init', () => {
       welcomeEl.classList.remove('scale-out');
       welcomeEl.classList.remove('hide');
-      //listEl.classList.remove('hide');
-      //listEl.classList.remove('scale-out');
+      listEl.classList.remove('hide');
+      listEl.classList.remove('scale-out');
     });
   }
 }

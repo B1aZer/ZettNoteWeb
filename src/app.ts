@@ -9,6 +9,7 @@ import {interpolate} from './utils/common.ts';
 declare global {
   interface Window {
     M: any;
+    CodeMirror: any;
   }
   interface String {
     interpolate (params: Object): Function;
@@ -28,6 +29,7 @@ export default class App extends Observable {
   // TODO: interface implements Renderer
   renderer: any;
   M;
+  CodeMirror: any;
   history: any;
 
   constructor(params: Object) {
@@ -46,6 +48,8 @@ export default class App extends Observable {
     // this.graph = GraphNode.create(this);
 
     this.M = window.M;
+
+    this.CodeMirror = window.CodeMirror;
 
     // this.storage = new IndexedStorage(this);
     this.storage = new StorageLocal(this);

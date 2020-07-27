@@ -11,6 +11,13 @@ export default class CreateScreenComponent extends Component {
     this.name = 'graph-note-create-screen';
     this.dom = this.renderFragment(html);
   }
+  bindEvents() {
+    let noteText = this.el('.graph-note-text');
+    this.cm = this.app.CodeMirror.fromTextArea(noteText, {
+      linenumbers: true,
+      mode: "markdown",
+    });
+  }
   bindListeners() {
 
     let createEl = this.el('.graph-note-create-screen');
@@ -42,17 +49,29 @@ export default class CreateScreenComponent extends Component {
 
     this.app.on('graph-note-add', (e) => {
       this.app.renderer.classRemove('hide', createEl);
+      this.cm.refresh();
+      this.cm.focus();
+      noteHeader.value = new Date().toLocaleDateString('en-US');
     });
     this.app.on('graph-note-create', () => {
       this.app.renderer.classAdd('hide', createEl);
+      // Move everything below to a seprate component
+      // It seems there is misunderstanding between copmonent state
+      // and storage state.
+      // Do we really need storage state to component and access it
+      // with component.getStateData() ?
+      /*
       if (!noteText.value) return;
       let graphNode = new GraphNode({
         header: noteHeader.value,
         text: noteText.value,
         //parents: chipsInstance.chipsData.map(x => x.tag),
-      })
+      });
       this.app.storage.set(graphNode.uuid, graphNode);
-      this.app.fireEvent('graph-note-created', graphNode);
+     */
+      this.app.fireEvent('graph-note-created');
+    });
+    this.app.on('graph-note-created', () => {
       noteHeader.value = '';
       noteText.value = '';
     });

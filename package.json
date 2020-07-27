@@ -25,6 +25,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "codemirror": "^5.56.0",
     "materialize-css": "^1.0.0-rc.2"
   }
 }

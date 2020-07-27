@@ -13,7 +13,8 @@ export default class NodeListComponent extends Component {
   bindListeners() {
     let nodeContainer = this.el('.graph-note-node-list');
     this.renderNodes();
-    this.app.on('graph-note-created', (obj) => {
+    this.app.on('graph-note-created', () => {
+      let obj = {name: 'init', data: {init: {header: 'test', text: 'test', uuid: 1}}};
       let nodeEl = new GraphNoteNode(this.app, obj);
       this.app.renderer.prepend(nodeEl.render(), nodeContainer);
     })

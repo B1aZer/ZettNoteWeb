@@ -12,8 +12,4 @@ export default class GraphNoteNode extends Component {
       e.preventDefault();
     });
   }
-  bindListeners() {
-    let el = this.el('.graph-note-node');
-    el.classList.add('scale-out');
-  }
 }
