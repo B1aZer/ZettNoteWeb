@@ -2,6 +2,7 @@ import './graph-note-create-screen.css';
 import html from './graph-note-create-screen.html';
 import Component from './component';
 import GraphNode from '../graph-node';
+import CreateScreenState from './graph-note-create-screen-state';
 
 export default class CreateScreenComponent extends Component {
 
@@ -9,6 +10,7 @@ export default class CreateScreenComponent extends Component {
 
   init() {
     this.name = 'graph-note-create-screen';
+    this.state = CreateScreenState(this.app);
     this.dom = this.renderFragment(html);
   }
   bindEvents() {
@@ -16,6 +18,9 @@ export default class CreateScreenComponent extends Component {
     this.cm = this.app.CodeMirror.fromTextArea(noteText, {
       linenumbers: true,
       mode: "markdown",
+    });
+    this.cm.on('change', () => {
+      this.state.changeComponentStateTo('dirty');
     });
   }
   bindListeners() {
@@ -54,6 +59,8 @@ export default class CreateScreenComponent extends Component {
       noteHeader.value = new Date().toLocaleDateString('en-US');
     });
     this.app.on('graph-note-create', () => {
+      this.state.runComponentAction('resetState');
+      this.state.changeComponentStateTo('init');
       this.app.renderer.classAdd('hide', createEl);
       // Move everything below to a seprate component
       // It seems there is misunderstanding between copmonent state

@@ -20,12 +20,18 @@ TY.
 
 ## TODO
 
- - [ ] component state vs storage state (create-screen.js)
- - [ ] access other component state with getComponentState (create-screen.js)
- - [ ] State save/restore
- - [ ] state methods (component.ts)
- - [ ] render list elements (root.js, list.js)
- - [ ] Minimal UI, remove unnecessary elements, scr button, make input full screen
+ - [ ] remove initState, mutState?
+ - [x] state definition (component): 'on' should be defined vs child should be able to
+ override {}. It seems state should live outside of component. This way component could
+ inherit state, update it, subscribe to it. This removes inheritance from state. Is the
+ same as reducer? This fixes 'on' issue, child issue, getComponentState issue, and moves
+ all method to a separate class
+ - [x] component state vs storage state (create-screen.js)
+ - [x] access other component state with getComponentState (create-screen.js)
+ - [ ] State save/restore (list.js)
+ - [x] state methods (component.ts)
+ - [x] render list elements (root.js, list.js)
+ - [x] Minimal UI, remove unnecessary elements, scr button, make input full screen
  - [ ] History state (grep history)
  - [ ] Dwarf fortress has filters for each evemt. Can we do it for before/atter events?
  - [ ] Rethink state and state transition. state compl, how do we save and restore data,actions,name?

@@ -14,6 +14,8 @@ export default class NodeListComponent extends Component {
     let nodeContainer = this.el('.graph-note-node-list');
     this.renderNodes();
     this.app.on('graph-note-created', () => {
+      // let obj = graphNodeComponent.getStateData();
+      // TODO: save state
       let obj = {name: 'init', data: {init: {header: 'test', text: 'test', uuid: 1}}};
       let nodeEl = new GraphNoteNode(this.app, obj);
       this.app.renderer.prepend(nodeEl.render(), nodeContainer);

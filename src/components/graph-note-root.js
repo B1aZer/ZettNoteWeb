@@ -3,47 +3,23 @@ import Component from './component';
 import AddBtnComponent from './graph-note-add-btn.js';
 import CreateScreenComponent from './graph-note-create-screen.js';
 import NodeListComponent from './graph-note-list.js';
+import RootState from './graph-note-root-state';
 
 export default class RootComponent extends Component {
 
   // This class unaware of renderer and uses component
-  //
-  // State should be consistent if called outside with
-  // thisComp.changeComponentStateTo(newState);
 
   init() {
     this.name = 'graph-note-root';
-    this.dom = this.renderFragment(html.interpolate(this.getStateData()));
+    this.state = RootState(this.app);
+    this.dom = this.renderFragment(html.interpolate(this.state.getData()));
     this.components = [AddBtnComponent, CreateScreenComponent, NodeListComponent];
   }
   initState() {
+    // TODO: for info only
     // STATE
-    this.state.name = 'init';
-    this.state.data = {
-      init: {
-        welcomeVisible: true
-      },
-      // we can explicitly define state here
-      // or we can omit stateData for this state
-      // and use actions to create from initial state
-      create: null,
-    }
-    this.state.actions = {
-      init: {
-        toggleElement: (stateData) => {
-          return Object.assign({}, stateData, {
-            welcomeVisible: false,
-          });
-        },
-      },
-      create: {
-        toggleElement: (stateData) => {
-          return Object.assign({}, stateData, {
-            welcomeVisible: true,
-          });
-        },
-      },
-    }
+    // ow to access from other comp?
+    // how to subscribe local storage?
     /*
     this.app.on('event', () => {
       // one way to change state
@@ -68,15 +44,15 @@ export default class RootComponent extends Component {
   }
   mutateState() {
     this.app.on('graph-note-add', () => {
-      this.runComponentAction('toggleElement');
+      this.state.runComponentAction('toggleElement');
       // TODO: we can use this method in actions
       // either in api runComponentAction(name, newState,Name)
       // or in action definition
-      this.changeComponentStateTo('create');
+      this.state.changeComponentStateTo('create');
     });
     this.app.on('graph-note-create', () => {
-      this.runComponentAction('toggleElement');
-      this.changeComponentStateTo('init');
+      this.state.runComponentAction('toggleElement');
+      this.state.changeComponentStateTo('init');
     });
   }
   bindListeners() {
