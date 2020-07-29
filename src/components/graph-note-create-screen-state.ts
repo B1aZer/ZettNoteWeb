@@ -1,5 +1,7 @@
 import State from '../state';
 
+export default stateWrapper;
+
 const state = {
     name: 'init',
     data: {
@@ -13,6 +15,9 @@ const state = {
       init: {
       },
       dirty: {
+        updateState: (stateData, obj) => Object.assign(
+          {}, stateData, obj
+        ),
         resetState: (stateData) => Object.assign(
           {}, stateData, {
             header: null,
@@ -23,6 +28,6 @@ const state = {
     }
 }
 
-export default function (app) {
+function stateWrapper(app) {
   return State.create(state);
 }

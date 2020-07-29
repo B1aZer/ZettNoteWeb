@@ -20,7 +20,9 @@ TY.
 
 ## TODO
 
- - [.] singleton state for the same import, but new instance for new state. Weakmap not
+ - [ ] local storage event (list.ts)
+ - [ ] do we need after/before or we can use different event names (create-screen)
+ - [x] singleton state for the same import, but new instance for new state. Weakmap not
  working?
  - [.] remove initState, mutState?
  - [x] state definition (component): 'on' should be defined vs child should be able to

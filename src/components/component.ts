@@ -17,7 +17,7 @@ export default (function(document) {
     components: Array<typeof Component>;
     state: any;
 
-    constructor(app/*, state={}*/) {
+    constructor(app, state=null) {
       this.app = app;
       this.renderer = app.renderer;
       this.name = '';
@@ -25,7 +25,7 @@ export default (function(document) {
       this.components = [];
 
       // redefined in children
-      this.state = null;
+      this.state = state;
 
       // private
       this.constructComponents();

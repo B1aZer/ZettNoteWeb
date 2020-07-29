@@ -14,6 +14,7 @@ export default class CreateScreenComponent extends Component {
     this.dom = this.renderFragment(html);
   }
   bindEvents() {
+    let noteHeader = this.el('.graph-note-header');
     let noteText = this.el('.graph-note-text');
     this.cm = this.app.CodeMirror.fromTextArea(noteText, {
       linenumbers: true,
@@ -21,6 +22,10 @@ export default class CreateScreenComponent extends Component {
     });
     this.cm.on('change', () => {
       this.state.changeComponentStateTo('dirty');
+      this.state.runComponentAction('updateState', {
+        header: noteHeader.value,
+        text: this.cm.getValue(),
+      });
     });
   }
   bindListeners() {
@@ -58,15 +63,10 @@ export default class CreateScreenComponent extends Component {
       this.cm.focus();
       noteHeader.value = new Date().toLocaleDateString('en-US');
     });
+    //this.app.after
     this.app.on('graph-note-create', () => {
-      this.state.runComponentAction('resetState');
-      this.state.changeComponentStateTo('init');
       this.app.renderer.classAdd('hide', createEl);
       // Move everything below to a seprate component
-      // It seems there is misunderstanding between copmonent state
-      // and storage state.
-      // Do we really need storage state to component and access it
-      // with component.getStateData() ?
       /*
       if (!noteText.value) return;
       let graphNode = new GraphNode({
@@ -76,11 +76,10 @@ export default class CreateScreenComponent extends Component {
       });
       this.app.storage.set(graphNode.uuid, graphNode);
      */
-      this.app.fireEvent('graph-note-created');
     });
     this.app.on('graph-note-created', () => {
-      noteHeader.value = '';
-      noteText.value = '';
+      this.state.runComponentAction('resetState');
+      this.state.changeComponentStateTo('init');
     });
   }
   /*

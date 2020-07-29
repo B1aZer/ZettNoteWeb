@@ -3,6 +3,8 @@ import Component from './component';
 import NodeListElementComponent from './graph-note-list-element.js'
 import GraphNoteNode from './graph-note-node.js'
 import GraphNoteNodeView from './graph-note-node-view.js'
+import State from '../state';
+import CreateScreenState from './graph-note-create-screen-state';
 
 export default class NodeListComponent extends Component {
 
@@ -12,13 +14,13 @@ export default class NodeListComponent extends Component {
   }
   bindListeners() {
     let nodeContainer = this.el('.graph-note-node-list');
-    this.renderNodes();
-    this.app.on('graph-note-created', () => {
-      // let obj = graphNodeComponent.getStateData();
-      // TODO: save state
-      let obj = {name: 'init', data: {init: {header: 'test', text: 'test', uuid: 1}}};
+    //this.renderNodes();
+    this.app.on('graph-note-create', () => {
+      let obj = CreateScreenState(this.app);
       let nodeEl = new GraphNoteNode(this.app, obj);
       this.app.renderer.prepend(nodeEl.render(), nodeContainer);
+      // TODO: fire after local storage saved
+      this.app.fireEvent('graph-note-created');
     })
   }
   renderNodes() {
