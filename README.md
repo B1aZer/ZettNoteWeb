@@ -20,7 +20,9 @@ TY.
 
 ## TODO
 
- - [ ] remove initState, mutState?
+ - [.] singleton state for the same import, but new instance for new state. Weakmap not
+ working?
+ - [.] remove initState, mutState?
  - [x] state definition (component): 'on' should be defined vs child should be able to
  override {}. It seems state should live outside of component. This way component could
  inherit state, update it, subscribe to it. This removes inheritance from state. Is the

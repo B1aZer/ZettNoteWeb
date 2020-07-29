@@ -1,7 +1,10 @@
 import State from '../state';
 
-export default function (app) {
-  return State.create({
+export default stateWrapper;
+
+// We need to define state as const outside of function
+// or WeakMap won't treat it as the same object
+const state = {
     name: 'init',
     data: {
       init: {
@@ -28,5 +31,8 @@ export default function (app) {
         },
       },
     }
-  });
+};
+
+function stateWrapper(app) {
+  return State.create(state);
 }

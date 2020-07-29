@@ -2,7 +2,7 @@ import Observable from './utils/observable.js';
 
 export default (function(Observable) {
 
-let instance = null;
+let instances = new WeakMap();
 
 class State {
   name: string;
@@ -31,10 +31,12 @@ class State {
        */
   }
   static create(obj) {
-    if (!instance) {
+    let instance;
+    if (!instances.has(obj)) {
       instance = new State(obj);
+      instances.set(obj, instance);
     }
-    return instance;
+    return instances.get(obj);
   }
   getData() {
     return this.data[this.name];

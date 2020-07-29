@@ -1,7 +1,6 @@
 import State from '../state';
 
-export default function (app) {
-  return State.create({
+const state = {
     name: 'init',
     data: {
       init: {
@@ -22,5 +21,8 @@ export default function (app) {
         )
       },
     }
-  });
+}
+
+export default function (app) {
+  return State.create(state);
 }
