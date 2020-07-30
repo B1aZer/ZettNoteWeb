@@ -8,7 +8,7 @@ class State {
   name: string;
   data: Object;
   actions: Object;
-  observable: Observable;
+  private observable: Observable;
 
   constructor(obj) {
     this.name = obj.name || '';

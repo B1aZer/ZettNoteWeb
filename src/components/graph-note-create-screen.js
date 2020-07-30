@@ -1,7 +1,6 @@
 import './graph-note-create-screen.css';
 import html from './graph-note-create-screen.html';
 import Component from './component';
-import GraphNode from '../graph-node';
 import CreateScreenState from './graph-note-create-screen-state';
 
 export default class CreateScreenComponent extends Component {
@@ -66,16 +65,7 @@ export default class CreateScreenComponent extends Component {
     //this.app.after
     this.app.on('graph-note-create', () => {
       this.app.renderer.classAdd('hide', createEl);
-      // Move everything below to a seprate component
-      /*
-      if (!noteText.value) return;
-      let graphNode = new GraphNode({
-        header: noteHeader.value,
-        text: noteText.value,
-        //parents: chipsInstance.chipsData.map(x => x.tag),
-      });
-      this.app.storage.set(graphNode.uuid, graphNode);
-     */
+      this.state.runComponentAction('saveState');
     });
     this.app.on('graph-note-created', () => {
       this.state.runComponentAction('resetState');
