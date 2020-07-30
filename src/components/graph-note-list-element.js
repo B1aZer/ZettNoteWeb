@@ -7,7 +7,7 @@ export default class GraphNoteNode extends Component {
     this.dom = this.renderFragment(html.interpolate(this.props));
   }
   bindEvents() {
-    let el = this.el('.graph-note-node-link');
+    let el = this.el('.graph-note-node-edit-link');
     el.addEvent('click', (e) => {
       e.preventDefault();
     });
