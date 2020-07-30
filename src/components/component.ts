@@ -16,8 +16,9 @@ export default (function(document) {
     dom: any;
     components: Array<typeof Component>;
     state: any;
+    props: any;
 
-    constructor(app, state=null) {
+    constructor(app, props=null) {
       this.app = app;
       this.renderer = app.renderer;
       this.name = '';
@@ -25,7 +26,10 @@ export default (function(document) {
       this.components = [];
 
       // redefined in children
-      this.state = state;
+      this.state = null;
+
+      // passed during initialization
+      this.props = props;
 
       // private
       this.constructComponents();
