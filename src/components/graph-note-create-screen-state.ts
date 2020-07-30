@@ -1,4 +1,5 @@
 import State from '../state';
+import {uuid} from '../utils/common';
 
 export default stateWrapper;
 
@@ -29,5 +30,12 @@ const state = {
 }
 
 function stateWrapper(app) {
-  return State.create(state);
+  let stateObj = State.create(state);
+  stateObj['actions']['dirty']['saveState'] = (stateData) => new Promise((resolve) => {
+    let id = uuid(stateData.header);
+    app.storage.set(id, stateData);
+    app.fireEvent('graph-note-created');
+    resolve(id);
+  });
+  return stateObj;
 }
