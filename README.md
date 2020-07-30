@@ -20,7 +20,15 @@ TY.
 
 ## TODO
 
- - [ ] local storage event (list.ts)
+ - [ ] renderNodes (list)
+ - [x] how to create state for multiple components of the same type, so that state was
+ accessible from outside? Use props
+ - [x] rename, graph node - > list element
+ - [ ] how to deal with async actions, or actions that use app? (create-scr)
+ - [ ] add note weakmap state const
+ - [x] private observable (state)
+ - [x] save (create-screen), render nodes (list)
+ - [x] local storage event (list.ts)
  - [ ] do we need after/before or we can use different event names (create-screen)
  - [x] singleton state for the same import, but new instance for new state. Weakmap not
  working?

@@ -4,6 +4,7 @@ import RendererDOM from './renderer-dom.js';
 import RootComponent from './components/graph-note-root.js';
 import HistoryBrowser from './history-browser';
 import {interpolate} from './utils/common.ts';
+//import { Dropbox } from 'dropbox';
 
 // TS temp declarations
 declare global {
@@ -64,6 +65,18 @@ export default class App extends Observable {
 
     // startup event
     this.fireEvent('graph-note-init');
+
+    // test
+    /*
+    var dbx = new Dropbox({ accessToken: 'DuWRKtJOP9MAAAAAAAA-u3xoAQaEcGi7-nk0oJYkglIUm5PsCG_8hM6BW0FLxfjV' });
+    dbx.usersGetCurrentAccount()
+      .then(function(response) {
+            console.log(response);
+          })
+      .catch(function(error) {
+            console.error(error);
+          });
+     */
   }
   renderRoot() {
     let baseComponent = new RootComponent(this);

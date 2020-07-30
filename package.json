@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "codemirror": "^5.56.0",
+    "dropbox": "^5.2.1",
     "materialize-css": "^1.0.0-rc.2"
   }
 }
