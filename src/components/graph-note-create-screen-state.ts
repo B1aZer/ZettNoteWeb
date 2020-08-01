@@ -21,8 +21,8 @@ const state = {
         ),
         resetState: (stateData) => Object.assign(
           {}, stateData, {
-            header: null,
-            text: null,
+            header: '',
+            text: '',
           }
         )
       },
@@ -31,11 +31,16 @@ const state = {
 
 function stateWrapper(app) {
   let stateObj = State.create(state);
-  stateObj['actions']['dirty']['saveState'] = (stateData) => new Promise((resolve) => {
+  stateObj['actions']['dirty']['saveState'] = (stateData) => {
     let id = uuid(stateData.header);
     app.storage.set(id, stateData);
-    app.fireEvent('graph-note-created');
-    resolve(id);
-  });
+    return stateData;
+  };
+  stateObj['actions']['init']['loadState'] = (stateData, id) => {
+    let newState = app.storage.get(id);
+    return Object.assign(
+      {}, stateData, newState
+    );
+  };
   return stateObj;
 }
