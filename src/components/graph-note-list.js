@@ -14,15 +14,16 @@ export default class NodeListComponent extends Component {
     let nodeContainer = this.el('.graph-note-node-list');
     this.renderNodes();
     this.app.on('graph-note-create', () => {
-      console.info(nodeContainer);
+      this.app.renderer.clear(nodeContainer);
       this.renderNodes();
     });
   }
   renderNodes() {
     let nodeContainer = this.el('.graph-note-node-list');
     let nodes = this.app.storage.getMap();
-    for (const [k,v] of nodes) {
-      let nodeEl = new GraphNoteNode(this.app, v);
+    for (const [hash, props] of nodes) {
+      let nodeEl = new GraphNoteNode(this.app, props);
+      nodeEl.hash = hash;
       this.app.renderer.append(nodeEl.render(), nodeContainer);
     }
   }
