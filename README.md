@@ -20,11 +20,22 @@ TY.
 
 ## TODO
 
+ - [ ] move fireEvent to action (create)
+ - [ ] async/await actions
+ - [ ] make uuid compatible with vim
+ - [ ] remove meterialize, keep icon
+ - [x] IT seems the obvious solution is to use component from where event is fired. Check
+ if all events fired from component's sc. Will not work because events fired from
+ different structures
+ - [x] I don't see a point in making list elements statefull. If any state should be on
+ parent element. But how do we pass click event from list element to other components. Do
+ we need to use arguments with fireEvent? Apparently - Yes.
  - [ ] renderNodes (list)
  - [x] how to create state for multiple components of the same type, so that state was
  accessible from outside? Use props
  - [x] rename, graph node - > list element
- - [ ] how to deal with async actions, or actions that use app? (create-scr)
+ - [x] how to deal with async actions, or actions that use app? (create-scr). Use
+ async-await
  - [ ] add note weakmap state const
  - [x] private observable (state)
  - [x] save (create-screen), render nodes (list)
@@ -54,3 +65,25 @@ TY.
  - [ ] Codemirror with markdown syntax
  - [ ] Note saved to shared storage (Dropbox)
  - [ ] Offline support
+
+## Component actions
+
+Component actions are defined for each state. You can think of it as actions as component
+behavior. Some behavior makes sense in one state, but not in other. The drawback is that
+state object became more verbose. The advantage is that we don't need to make if
+conditions before running action. Example:
+
+Send save request, but only if textarea was changed. We could check textarea before
+making request. Or we could define dirty state and define request action in this state. In
+this case we could be sure request always would be sent after user made at least one change.
+
+Component action should always return component state (old or new). Use async for async
+actions and await for result.
+
+## State WeakMap
+
+Every component state is saved in WeakMap. If same state import multipled times, we don't
+want to create a new state, but reuse existing.
+
+We have to use const {} outside of create function to be sure {} points to the same
+object.
