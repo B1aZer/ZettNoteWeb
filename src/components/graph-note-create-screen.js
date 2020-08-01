@@ -21,10 +21,6 @@ export default class CreateScreenComponent extends Component {
     });
     this.cm.on('change', () => {
       this.state.changeComponentStateTo('dirty');
-      this.state.runComponentAction('updateState', {
-        header: noteHeader.value,
-        text: this.cm.getValue(),
-      });
     });
   }
   bindListeners() {
@@ -56,21 +52,40 @@ export default class CreateScreenComponent extends Component {
       });
    */
 
-    this.app.on('graph-note-add', (e) => {
+    this.app.on('graph-note-list-element-clicked', (hash) => {
+      this.state.runComponentAction('loadState', hash);
+      // TODO: move to action
+      this.app.fireEvent('graph-note-add');
+      this.updateUI();
+    });
+    this.app.on('graph-note-add', () => {
       this.app.renderer.classRemove('hide', createEl);
       this.cm.refresh();
       this.cm.focus();
-      noteHeader.value = new Date().toLocaleDateString('en-US');
+      //noteHeader.value = new Date().toLocaleDateString('en-US');
     });
     //this.app.after
     this.app.on('graph-note-create', () => {
       this.app.renderer.classAdd('hide', createEl);
+      this.state.runComponentAction('updateState', {
+        header: noteHeader.value,
+        text: this.cm.getValue(),
+      });
       this.state.runComponentAction('saveState');
+      // TODO: move to action
+      this.app.fireEvent('graph-note-created');
     });
     this.app.on('graph-note-created', () => {
       this.state.runComponentAction('resetState');
+      this.updateUI();
       this.state.changeComponentStateTo('init');
     });
+  }
+  updateUI() {
+    let noteHeader = this.el('.graph-note-header');
+    let noteText = this.el('.graph-note-text');
+    noteHeader.value = this.state.getData().header;
+    this.cm.setValue(this.state.getData().text);
   }
   /*
   generateChipTags() {
