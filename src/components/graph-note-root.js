@@ -43,15 +43,15 @@ export default class RootComponent extends Component {
     let instances = this.app.M.FloatingActionButton.init(elems, []);
   }
   mutateState() {
-    this.app.on('graph-note-add', () => {
-      this.state.runComponentAction('toggleElement');
+    this.app.on('graph-note-add', async () => {
+      await this.state.runComponentAction('toggleElement');
       // TODO: we can use this method in actions
       // either in api runComponentAction(name, newState,Name)
       // or in action definition
       this.state.changeComponentStateTo('create');
     });
-    this.app.on('graph-note-create', () => {
-      this.state.runComponentAction('toggleElement');
+    this.app.on('graph-note-create', async () => {
+      await this.state.runComponentAction('toggleElement');
       this.state.changeComponentStateTo('init');
     });
   }

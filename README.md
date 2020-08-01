@@ -20,6 +20,7 @@ TY.
 
 ## TODO
 
+ - [ ] update action state example below
  - [ ] update element
  - [ ] dropbox storage should have the same interface as storage local
  - [ ] move fireEvent to action (create)
@@ -75,12 +76,13 @@ behavior. Some behavior makes sense in one state, but not in other. The drawback
 state object became more verbose. The advantage is that we don't need to make if
 conditions before running action. Example:
 
+(NOT A BEST EXAMPLE)
 Send save request, but only if textarea was changed. We could check textarea before
 making request. Or we could define dirty state and define request action in this state. In
 this case we could be sure request always would be sent after user made at least one change.
 
-Component action should always return component state (old or new). Use async for async
-actions and await for result.
+Component action should always return component state (old or new). Actions support async
+events. Use async/await in functions that use runComponentAction (or use .then).
 
 ## State WeakMap
 

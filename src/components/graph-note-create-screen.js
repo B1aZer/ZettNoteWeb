@@ -52,10 +52,10 @@ export default class CreateScreenComponent extends Component {
       });
    */
 
-    this.app.on('graph-note-list-element-edit', (hash) => {
-      this.state.runComponentAction('loadState', hash)
-        .then(() => this.app.fireEvent('graph-note-add'))
-        .then(() => this.updateUI());
+    this.app.on('graph-note-list-element-edit', async (hash) => {
+      await this.state.runComponentAction('loadState', hash);
+      this.app.fireEvent('graph-note-add');
+      this.updateUI();
     });
     this.app.on('graph-note-add', () => {
       this.app.renderer.classRemove('hide', createEl);
@@ -64,18 +64,17 @@ export default class CreateScreenComponent extends Component {
       //noteHeader.value = new Date().toLocaleDateString('en-US');
     });
     //this.app.after
-    this.app.on('graph-note-create', () => {
+    this.app.on('graph-note-create', async () => {
       this.app.renderer.classAdd('hide', createEl);
-      this.state.runComponentAction('updateState', {
+      await this.state.runComponentAction('updateState', {
         header: noteHeader.value,
         text: this.cm.getValue(),
       });
-      this.state.runComponentAction('saveState');
-      // TODO: move to action
+      await this.state.runComponentAction('saveState');
       this.app.fireEvent('graph-note-created');
     });
-    this.app.on('graph-note-created', () => {
-      this.state.runComponentAction('resetState');
+    this.app.on('graph-note-created', async () => {
+      await this.state.runComponentAction('resetState')
       this.updateUI();
       this.state.changeComponentStateTo('init');
     });
