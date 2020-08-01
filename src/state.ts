@@ -51,13 +51,19 @@ class State {
    * but leaves component state intact,
    * You should manually call changeComponentStateTo
    * to change state
+   *
+   * Method supports async actions
    */
   runComponentAction(actionName, obj) {
-    try {
-      this.data[this.name] = this.actions[this.name][actionName](this.getData(), obj);
-    } catch (TypeError) {
-      throw new Error(`There is no ${actionName} action in ${this.getName()} state`);
-    }
+    let promised = (resolve, reject) => {
+      try {
+        this.data[this.name] = this.actions[this.name][actionName](this.getData(), obj);
+        resolve(this.data[this.name]);
+      } catch (TypeError) {
+        reject(new Error(`There is no ${actionName} action in ${this.getName()} state`));
+      }
+    };
+    return new Promise(promised);
   }
   /* This methdod does not change state data in any way,
    * we have actions for that,
