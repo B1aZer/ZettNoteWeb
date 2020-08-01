@@ -20,6 +20,7 @@ TY.
 
 ## TODO
 
+ - [ ] dropbox storage should have the same interface as storage local
  - [ ] move fireEvent to action (create)
  - [ ] async/await actions
  - [ ] make uuid compatible with vim

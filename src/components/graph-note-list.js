@@ -17,6 +17,11 @@ export default class NodeListComponent extends Component {
       this.app.renderer.clear(nodeContainer);
       this.renderNodes();
     });
+    this.app.on('graph-note-list-element-delete', (hash) => {
+      this.app.storage.delete(hash);
+      this.app.renderer.clear(nodeContainer);
+      this.renderNodes();
+    });
   }
   renderNodes() {
     let nodeContainer = this.el('.graph-note-node-list');

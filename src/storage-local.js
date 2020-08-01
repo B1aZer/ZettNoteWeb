@@ -24,9 +24,16 @@ class StorageLocal {
   get(k) {
     return this.map.get(k);
   }
+  delete(k) {
+    this.map.delete(k);
+    this.save();
+  }
   set(k, v) {
     if (!k) return;
     this.map.set(k, v);
+    this.save();
+  }
+  save() {
     let toJsonStorage = JSON.stringify(Array.from(this.map.entries()));
     window.localStorage.setItem(BUCKET_NAME, toJsonStorage);
   }

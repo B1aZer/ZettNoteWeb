@@ -52,7 +52,7 @@ export default class CreateScreenComponent extends Component {
       });
    */
 
-    this.app.on('graph-note-list-element-clicked', (hash) => {
+    this.app.on('graph-note-list-element-edit', (hash) => {
       this.state.runComponentAction('loadState', hash);
       // TODO: move to action
       this.app.fireEvent('graph-note-add');
