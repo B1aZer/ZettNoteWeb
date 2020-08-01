@@ -44,6 +44,9 @@ export default (function(document) {
     set(text, node) {
       node.textContent = text;
     }
+    clear(node) {
+      node.innerHTML = '';
+    }
   }
 
   return RendererDOM;
