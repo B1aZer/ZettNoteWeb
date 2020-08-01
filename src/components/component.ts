@@ -51,6 +51,8 @@ export default (function(document) {
       // TODO: to renderer
       // what is queryselector, component does not know that
       let element = this.dom.querySelector(q);
+      // if fragment is in DOM already, fallback to DOM method
+      if (!element) element = document.querySelector(q);
       element.addEvent = this.renderer.addEvent.bind(element);
       return element;
     }
