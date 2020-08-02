@@ -20,6 +20,8 @@ TY.
 
 ## TODO
 
+ - [ ] error in callback should prevent state change (create blank)
+ - [ ] how do we create/update state?
  - [ ] update action state example below
  - [ ] update element
  - [ ] dropbox storage should have the same interface as storage local

@@ -15,12 +15,15 @@ export default class CreateScreenComponent extends Component {
   bindEvents() {
     let noteHeader = this.el('.graph-note-header');
     let noteText = this.el('.graph-note-text');
+    noteHeader.addEvent('change', () => {
+      this.app.fireEvent('graph-note-create-screen-update-state');
+    });
     this.cm = this.app.CodeMirror.fromTextArea(noteText, {
       linenumbers: true,
       mode: "markdown",
     });
     this.cm.on('change', () => {
-      this.state.changeComponentStateTo('dirty');
+      this.app.fireEvent('graph-note-create-screen-update-state');
     });
   }
   bindListeners() {
@@ -70,13 +73,23 @@ export default class CreateScreenComponent extends Component {
         header: noteHeader.value,
         text: this.cm.getValue(),
       });
-      await this.state.runComponentAction('saveState');
+      await this.state.runComponentAction('saveState', this.hash);
       this.app.fireEvent('graph-note-created');
     });
     this.app.on('graph-note-created', async () => {
       await this.state.runComponentAction('resetState')
       this.updateUI();
       this.state.changeComponentStateTo('init');
+    });
+    this.app.on('graph-note-create-screen-update-state', async () => {
+      let hVal = noteHeader.value;
+      let tVal = this.cm.getValue();
+      if (hVal && tVal) {
+        this.state.changeComponentStateTo('filled');
+      } else {
+        this.state.changeComponentStateTo('init');
+      }
+
     });
   }
   updateUI() {

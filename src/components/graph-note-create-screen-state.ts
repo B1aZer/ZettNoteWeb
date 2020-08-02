@@ -10,12 +10,12 @@ const state = {
         header: null,
         text: null,
       },
-      dirty: null,
+      filled: null,
     },
     actions: {
       init: {
       },
-      dirty: {
+      filled: {
         updateState: (stateData, obj) => Object.assign(
           {}, stateData, obj
         ),
@@ -31,7 +31,11 @@ const state = {
 
 function stateWrapper(app) {
   let stateObj = State.create(state);
-  stateObj['actions']['dirty']['saveState'] = (stateData) => {
+  stateObj['actions']['init']['saveState'] = (stateData) => {
+    app.M.toast({html: 'Fill the header and text', classes: 'rounded'})
+    return stateData;
+  };
+  stateObj['actions']['filled']['saveState'] = (stateData) => {
     let id = uuid(stateData.header);
     app.storage.set(id, stateData);
     return stateData;
