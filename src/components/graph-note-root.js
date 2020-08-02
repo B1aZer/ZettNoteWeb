@@ -1,8 +1,8 @@
 import html from './graph-note-root.html';
 import Component from './component';
-import AddBtnComponent from './graph-note-add-btn.js';
-import CreateScreenComponent from './graph-note-create-screen.js';
-import NodeListComponent from './graph-note-list.js';
+import AddBtnComponent from './graph-note-add-btn';
+import CreateScreenComponent from './graph-note-create-screen';
+import NodeListComponent from './graph-note-list';
 import RootState from './graph-note-root-state';
 
 export default class RootComponent extends Component {
