@@ -24,7 +24,7 @@ export default class AddBtnComponent extends Component {
     this.app.on('graph-note-add', () => {
       addBtn.textContent = 'check';
     })
-    this.app.on('graph-note-create', () => {
+    this.app.on('graph-note-created', () => {
       addBtn.textContent = 'mode_edit';
     })
   }

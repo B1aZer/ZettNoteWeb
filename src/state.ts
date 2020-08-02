@@ -67,7 +67,7 @@ class State {
         throw e;
       }
     }
-    console.info('=== Component action finish ===');
+    console.info(`=== Component action ${actionName} finish ===`);
     return this.data[this.name];
   }
   /* This methdod does not change state data in any way,
