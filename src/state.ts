@@ -54,16 +54,17 @@ class State {
    *
    * Method supports async actions
    */
-  runComponentAction(actionName, obj) {
-    let promised = (resolve, reject) => {
-      try {
-        this.data[this.name] = this.actions[this.name][actionName](this.getData(), obj);
-        resolve(this.data[this.name]);
-      } catch (TypeError) {
-        reject(new Error(`There is no ${actionName} action in ${this.getName()} state`));
+  async runComponentAction(actionName, obj) {
+    try {
+      this.data[this.name] = await this.actions[this.name][actionName](this.getData(), obj);
+    } catch (e) {
+      if (e instanceof TypeError) {
+        throw new Error(`There is no ${actionName} action in ${this.getName()} state`);
+      } else {
+        throw e;
       }
-    };
-    return new Promise(promised);
+    }
+    return this.data[this.name];
   }
   /* This methdod does not change state data in any way,
    * we have actions for that,
