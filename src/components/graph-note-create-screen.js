@@ -57,6 +57,8 @@ export default class CreateScreenComponent extends Component {
 
     this.app.on('graph-note-list-element-edit', async (hash) => {
       await this.state.runComponentAction('loadState', hash);
+      // no, it's a local state (only while component is visble)
+      this.hash = hash;
       this.app.fireEvent('graph-note-add');
       this.updateUI();
     });
@@ -68,7 +70,6 @@ export default class CreateScreenComponent extends Component {
     });
     //this.app.after
     this.app.on('graph-note-create', async () => {
-      this.app.renderer.classAdd('hide', createEl);
       await this.state.runComponentAction('updateState', {
         header: noteHeader.value,
         text: this.cm.getValue(),
@@ -77,6 +78,7 @@ export default class CreateScreenComponent extends Component {
       this.app.fireEvent('graph-note-created');
     });
     this.app.on('graph-note-created', async () => {
+      this.app.renderer.classAdd('hide', createEl);
       await this.state.runComponentAction('resetState')
       this.updateUI();
       this.state.changeComponentStateTo('init');

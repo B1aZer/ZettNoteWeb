@@ -20,28 +20,36 @@ TY.
 
 ## TODO
 
- - [ ] error in callback should prevent state change (create blank)
+ - [ ] add 'd' o list event
+ - [ ] everything is immutable by default (DOM, Components, variables)
+ - [ ] check memory leak on list (components are not removed?)
+ - [ ] list could keep track of ref and currently clicked element
+ - [ ] now update could check for clicked element, if clicked what action ?
+ - [ ] How to make update state with all the 'filled' state actions but that would expect
+ list_clicked_item_id and replace saveState with replaceState?
+ - [ ] error in callback should prevent state change (create blank). Await provided a
+ queue to run all callbacks before the error is actually raised.
  - [ ] how do we create/update state?
  - [ ] update action state example below
  - [ ] update element
  - [ ] dropbox storage should have the same interface as storage local
- - [ ] move fireEvent to action (create)
- - [ ] async/await actions
+ - [x] move fireEvent to action (create)
+ - [x] async/await actions
  - [ ] make uuid compatible with vim
- - [ ] remove meterialize, keep icon
+ - [.] remove meterialize, keep icon. Use toastr
  - [x] IT seems the obvious solution is to use component from where event is fired. Check
  if all events fired from component's sc. Will not work because events fired from
  different structures
  - [x] I don't see a point in making list elements statefull. If any state should be on
  parent element. But how do we pass click event from list element to other components. Do
  we need to use arguments with fireEvent? Apparently - Yes.
- - [ ] renderNodes (list)
+ - [x] renderNodes (list)
  - [x] how to create state for multiple components of the same type, so that state was
  accessible from outside? Use props
  - [x] rename, graph node - > list element
  - [x] how to deal with async actions, or actions that use app? (create-scr). Use
  async-await
- - [ ] add note weakmap state const
+ - [x] add note weakmap state const
  - [x] private observable (state)
  - [x] save (create-screen), render nodes (list)
  - [x] local storage event (list.ts)

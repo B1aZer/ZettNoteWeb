@@ -50,7 +50,7 @@ export default class RootComponent extends Component {
       // or in action definition
       this.state.changeComponentStateTo('create');
     });
-    this.app.on('graph-note-create', async () => {
+    this.app.on('graph-note-created', async () => {
       await this.state.runComponentAction('toggleElement');
       this.state.changeComponentStateTo('init');
     });

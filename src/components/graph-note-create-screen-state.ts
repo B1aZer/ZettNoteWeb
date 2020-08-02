@@ -31,7 +31,7 @@ const state = {
 
 function stateWrapper(app) {
   let stateObj = State.create(state);
-  stateObj['actions']['init']['saveState'] = (stateData) => {
+  stateObj['actions']['init']['updateState'] = (stateData) => {
     app.M.toast({html: 'Fill the header and text', classes: 'rounded'})
     return stateData;
   };
