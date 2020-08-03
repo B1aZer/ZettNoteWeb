@@ -5,6 +5,9 @@ import CreateScreenState from './graph-note-create-screen-state';
 
 export default class CreateScreenComponent extends Component {
 
+  cm: any;
+  // TODO: rm
+  hash: any;
   // TODO: This class unaware of renderer and uses component
 
   init() {
@@ -86,12 +89,9 @@ export default class CreateScreenComponent extends Component {
     this.app.on('graph-note-create-screen-update-state', async () => {
       let hVal = noteHeader.value;
       let tVal = this.cm.getValue();
-      if (hVal && tVal) {
-        this.state.changeComponentStateTo('filled');
-      } else {
-        this.state.changeComponentStateTo('init');
-      }
-
+      (hVal && tVal)
+        ? this.state.changeComponentStateTo('filled')
+        : this.state.changeComponentStateTo('init');
     });
   }
   updateUI() {

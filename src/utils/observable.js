@@ -29,22 +29,20 @@ export default class Observable {
  */
   off(name, f) {
     // TODO
-    if (this.listeners.has(name)) {
-      this.listeners.get(name);
-    }
+    if (!this.listeners.has(name)) return;
+    this.listeners.get(name);
   }
   fireEvent(name, arg=undefined) {
-    if (this.listeners.has(name)) {
-      for (let f of this.listeners.get(name)) {
-        /*
-        if (interceptors.has(name)) {
-          f(interceptors.get(name)());
-        } else {
-          f();
-        }
-       */
-        f(arg);
+    if (!this.listeners.has(name)) return;
+    for (let f of this.listeners.get(name)) {
+      /*
+      if (interceptors.has(name)) {
+        f(interceptors.get(name)());
+      } else {
+        f();
       }
+     */
+      f(arg);
     }
   }
   // state was moved to each component

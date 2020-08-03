@@ -12,11 +12,9 @@ export default class AddBtnComponent extends Component {
     let addBtn = this.el('.graph-note-add');
 
     addBtn.addEvent('click', () => {
-      if (this.state.getName() === 'init') {
-        this.app.fireEvent('graph-note-add');
-      } else {
-        this.app.fireEvent('graph-note-create');
-      }
+      (this.state.getName() === 'init')
+        ? this.app.fireEvent('graph-note-add')
+        : this.app.fireEvent('graph-note-create');
     });
   }
   bindListeners() {

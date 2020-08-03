@@ -20,10 +20,14 @@ TY.
 
 ## TODO
 
- - [ ] add 'd' o list event
- - [ ] everything is immutable by default (DOM, Components, variables)
- - [ ] check memory leak on list (components are not removed?)
- - [ ] list could keep track of ref and currently clicked element
+ - [x] an we replace all if's? If creates uncertainty (hence the name). If any type of
+ program we want to decrease branching and uncertanty. Replace if with case, ternary,
+ Monad. Or use separate function. Only use if for argument checking. Replace it later with
+ types
+ - [x] add 'd' o list event
+ - [x] everything is immutable by default (DOM, Components, variables)
+ - [x] check memory leak on list (components are not removed?). They are
+ - [x] list could keep track of ref and currently clicked element. Ref should use WeakMap
  - [ ] now update could check for clicked element, if clicked what action ?
  - [ ] How to make update state with all the 'filled' state actions but that would expect
  list_clicked_item_id and replace saveState with replaceState?

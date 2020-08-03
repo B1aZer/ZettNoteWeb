@@ -12,11 +12,9 @@ class StorageLocal {
   }
   init() {
     let jsonStorage = window.localStorage.getItem(BUCKET_NAME);
-    if (jsonStorage) {
-      this.map = new Map(JSON.parse(jsonStorage));
-    } else {
-      this.map = new Map();
-    }
+    this.map = jsonStorage
+      ? new Map(JSON.parse(jsonStorage))
+      : new Map();
   }
   getMap() {
     return this.map;

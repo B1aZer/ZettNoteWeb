@@ -31,9 +31,8 @@ class State {
        */
   }
   static create(obj) {
-    let instance;
     if (!instances.has(obj)) {
-      instance = new State(obj);
+      let instance = new State(obj);
       instances.set(obj, instance);
     }
     return instances.get(obj);
@@ -61,10 +60,12 @@ class State {
     try {
       this.data[this.name] = await this.actions[this.name][actionName](this.getData(), obj);
     } catch (e) {
-      if (e instanceof TypeError) {
-        throw new Error(`There is no ${actionName} action in ${this.getName()} state`);
-      } else {
-        throw e;
+      switch (e.constructor) {
+        case TypeError:
+          throw new Error(`There is no ${actionName} action in ${this.getName()} state`);
+          break;
+        default:
+          throw e;
       }
     }
     console.info(`=== Component action ${actionName} finish ===`);
