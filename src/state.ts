@@ -55,7 +55,9 @@ class State {
    */
   async runComponentAction(actionName, obj) {
     console.info(`=== Component action ${actionName} start ===`);
-    console.info(this.name);
+    console.info(`=== ${actionName} state name ${this.name} ===`);
+    console.info(`=== ${actionName} state dt ${this.data[this.name]} ===`);
+    console.info(`=== ${actionName} from`);
     console.info(this.data[this.name]);
     try {
       this.data[this.name] = await this.actions[this.name][actionName](this.getData(), obj);
@@ -68,6 +70,8 @@ class State {
           throw e;
       }
     }
+    console.info(`=== ${actionName} to ===`);
+    console.info(this.data[this.name]);
     console.info(`=== Component action ${actionName} finish ===`);
     return this.data[this.name];
   }
