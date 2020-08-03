@@ -35,8 +35,8 @@ function stateWrapper(app) {
     app.M.toast({html: 'Fill the header and text', classes: 'rounded'})
     return stateData;
   };
-  stateObj['actions']['filled']['saveState'] = (stateData) => {
-    let id = uuid(stateData.header);
+  stateObj['actions']['filled']['saveState'] = (stateData, id) => {
+    id = id || uuid(stateData.header);
     app.storage.set(id, stateData);
     return stateData;
   };
