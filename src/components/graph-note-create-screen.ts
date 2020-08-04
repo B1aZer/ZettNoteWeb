@@ -56,22 +56,22 @@ export default class CreateScreenComponent extends Component {
         chipOptions.autocompleteOptions.data = this.generateChipTags();
         chipsInstance = this.app.M.Chips.init(parentsChips, chipOptions);
       });
-   */
+    */
 
     this.app.on('graph-note-list-element-edit', async (hash) => {
       await this.state.runComponentAction('loadState', hash);
       // no, it's a local state (only while component is visble)
       this.hash = hash;
-      this.app.fireEvent('graph-note-add');
       this.updateUI();
+      this.app.fireEvent('graph-note-add');
     });
     this.app.on('graph-note-add', () => {
       this.app.renderer.classRemove('hide', createEl);
       this.cm.refresh();
-      this.cm.focus();
+      noteHeader.focus();
       //noteHeader.value = new Date().toLocaleDateString('en-US');
+      //this.cm.focus();
     });
-    //this.app.after
     this.app.on('graph-note-create', async () => {
       await this.state.runComponentAction('updateState', {
         header: noteHeader.value,

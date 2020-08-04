@@ -29,13 +29,14 @@ TY.
  - [x] check memory leak on list (components are not removed?). They are
  - [x] list could keep track of ref and currently clicked element. Ref should use WeakMap
  - [ ] now update could check for clicked element, if clicked what action ?
+ - [ ] fx this.hsh
  - [ ] How to make update state with all the 'filled' state actions but that would expect
  list_clicked_item_id and replace saveState with replaceState?
- - [ ] error in callback should prevent state change (create blank). Await provided a
+ - [x] error in callback should prevent state change (create blank). Await provided a
  queue to run all callbacks before the error is actually raised.
- - [ ] how do we create/update state?
- - [ ] update action state example below
- - [ ] update element
+ - [x] how do we create/update state?
+ - [x] update action state example below
+ - [x] update element
  - [ ] dropbox storage should have the same interface as storage local
  - [x] move fireEvent to action (create)
  - [x] async/await actions
