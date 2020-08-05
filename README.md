@@ -20,6 +20,7 @@ TY.
 
 ## TODO
 
+ - [ ] changeComponentStateTo -> changeStateNameTo
  - [x] an we replace all if's? If creates uncertainty (hence the name). If any type of
  program we want to decrease branching and uncertanty. Replace if with case, ternary,
  Monad. Or use separate function. Only use if for argument checking. Replace it later with
@@ -28,9 +29,12 @@ TY.
  - [x] everything is immutable by default (DOM, Components, variables)
  - [x] check memory leak on list (components are not removed?). They are
  - [x] list could keep track of ref and currently clicked element. Ref should use WeakMap
- - [ ] now update could check for clicked element, if clicked what action ?
- - [ ] fx this.hsh
- - [ ] How to make update state with all the 'filled' state actions but that would expect
+ - [x] now update could check for clicked element, if clicked what action? Pass data with
+ event
+ - [x] load/save should have different signatures based on state (new/upd). TS should give
+ error if there are no or there is an argument. Hash should be associated only with 'upd'
+ - [x] fx this.hsh
+ - [x] How to make update state with all the 'filled' state actions but that would expect
  list_clicked_item_id and replace saveState with replaceState?
  - [x] error in callback should prevent state change (create blank). Await provided a
  queue to run all callbacks before the error is actually raised.

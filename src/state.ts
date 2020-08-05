@@ -5,6 +5,7 @@ export default (function(Observable) {
 let instances = new WeakMap();
 
 class State {
+
   name: string;
   data: Object;
   actions: Object;
@@ -14,21 +15,20 @@ class State {
     this.name = obj.name || '';
     this.data = obj.data || {};
     this.actions = obj.actions || {};
-      // TODO: Proxy can be used to track changes
-      this.observable = new Observable();
-      // TODO: tracks state for each component
-      //this.stateHistory = {};
-      // TODO: history TEST
-      /* this.app.on('graph-note-history-change', () => {
-        let h = this.app.history.getStateData().hash;
-        console.info(h);
-        console.info(this.stateHistory);
-        console.warn(this.stateHistory[h]);
-        if (this.stateHistory[h]) {
-          this.changeComponentStateTo(this.stateHistory[h], false);
-        }
-      });
-       */
+    // TODO: Proxy can be used to track changes
+    this.observable = new Observable();
+    // TODO: tracks state for each component
+    // {h: this}
+    //this.stateHistory = {};
+    // TODO: history TEST
+    /*
+    this.app.on('graph-note-history-change-state', () => {
+      let h = this.app.history.getStateData().hash;
+      if (this.stateHistory[h]) {
+        this.changeComponentStateTo(this.stateHistory[h], false);
+      }
+    });
+    */
   }
   static create(obj) {
     if (!instances.has(obj)) {
@@ -79,21 +79,22 @@ class State {
    * we have actions for that,
    * It saves current state and transitions state
    */
-  changeComponentStateTo(newState, save=true) {
-    this.observable.fireEvent(newState);
+  changeComponentStateTo(newState) {
+    // copy data to a new state
+    this.data[newState] = Object.assign({}, this.data[this.name]);
     this.name = newState;
+    this.observable.fireEvent(newState);
     // TODO: move to renderer
     // this will write to to history on each component change
     // we can create start state history method to control state more elegantly
     // TODO: history
+    //let h = uuid(this.state.name);
+    // {name: getName, data: getDate}
     /*
-    let h = uuid(this.state.name);
-    if (save) {
-      this.stateHistory[h] = this.state.name;
-      this.app.history.saveState(this.state, h);
-    }
-     */
-      /*
+    this.stateHistory[h] = this.getData();
+    this.app.history.saveState(h, this.getData());
+    */
+    /*
     changeComponentStateTo_v0(newState) {
       let hash = new Hash(); //or index
       this.prev = this.prev.slice(1,this.prev.lenth);

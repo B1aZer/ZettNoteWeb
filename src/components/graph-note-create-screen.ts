@@ -2,38 +2,56 @@ import './graph-note-create-screen.css';
 import html from './graph-note-create-screen.html';
 import Component from './component';
 import CreateScreenState from './graph-note-create-screen-state';
+import UpdateScreenState from './graph-note-create-screen-state-update';
+import {uuid} from '../utils/common';
 
 export default class CreateScreenComponent extends Component {
 
+  // TODO: This class unaware of renderer and uses component
   cm: any;
   // TODO: rm
-  hash: any;
-  // TODO: This class unaware of renderer and uses component
+  id: any;
+  // TODO: history
+  stateHistory: Object;
+  noteHeader: any;
+  noteText: any;
 
   init() {
     this.name = 'graph-note-create-screen';
     this.state = CreateScreenState(this.app);
     this.dom = this.renderFragment(html);
+    // UI
+    this.noteHeader = this.el('.graph-note-header');
+    this.noteText = this.el('.graph-note-text');
   }
   bindEvents() {
-    let noteHeader = this.el('.graph-note-header');
-    let noteText = this.el('.graph-note-text');
-    noteHeader.addEvent('change', () => {
-      this.app.fireEvent('graph-note-create-screen-update-state');
+    this.noteHeader.addEvent('change', () => {
+      this.app.fireEvent('graph-note-create-screen-update-text');
     });
-    this.cm = this.app.CodeMirror.fromTextArea(noteText, {
+    this.cm = this.app.CodeMirror.fromTextArea(this.noteText, {
       linenumbers: true,
       mode: "markdown",
     });
     this.cm.on('change', () => {
-      this.app.fireEvent('graph-note-create-screen-update-state');
+      this.app.fireEvent('graph-note-create-screen-update-text');
     });
   }
   bindListeners() {
 
     let createEl = this.el('.graph-note-create-screen');
-    let noteHeader = this.el('.graph-note-header');
-    let noteText = this.el('.graph-note-text');
+
+    // TODO: history
+    // save state
+    this.state.on('*', () => {
+      let h = uuid(this.state.getName());
+      this.stateHistory[h] = {name: this.state.getName(), data: this.state.getData()};
+      this.app.history.saveState(h);
+    });
+
+    // load state
+    this.app.on('graph-note-history-change-state', (h) => {
+      this.state.runComponentAction('updateState', this.stateHistory[h]);
+    });
 
     /*
       let parentsChips = this.el('.chips-autocomplete');
@@ -58,26 +76,26 @@ export default class CreateScreenComponent extends Component {
       });
     */
 
-    this.app.on('graph-note-list-element-edit', async (hash) => {
-      await this.state.runComponentAction('loadState', hash);
-      // no, it's a local state (only while component is visble)
-      this.hash = hash;
+    this.app.on('graph-note-list-element-edit', async (id) => {
+      this.state = UpdateScreenState(this.app);
+      await this.state.runComponentAction('updateState', {id: id});
+      await this.state.runComponentAction('loadState');
       this.updateUI();
-      this.app.fireEvent('graph-note-add');
+      this.app.renderer.classRemove('hide', createEl);
+      this.prepeareTextarea();
     });
     this.app.on('graph-note-add', () => {
+      this.state = CreateScreenState(this.app);
       this.app.renderer.classRemove('hide', createEl);
-      this.cm.refresh();
-      noteHeader.focus();
-      //noteHeader.value = new Date().toLocaleDateString('en-US');
-      //this.cm.focus();
+      this.noteHeader.value = new Date().toLocaleDateString('en-US');
+      this.prepeareTextarea();
     });
     this.app.on('graph-note-create', async () => {
       await this.state.runComponentAction('updateState', {
-        header: noteHeader.value,
+        header: this.noteHeader.value,
         text: this.cm.getValue(),
       });
-      await this.state.runComponentAction('saveState', this.hash);
+      await this.state.runComponentAction('saveState');
       this.app.fireEvent('graph-note-created');
     });
     this.app.on('graph-note-created', async () => {
@@ -86,18 +104,20 @@ export default class CreateScreenComponent extends Component {
       this.updateUI();
       this.state.changeComponentStateTo('init');
     });
-    this.app.on('graph-note-create-screen-update-state', async () => {
-      let hVal = noteHeader.value;
+    this.app.on('graph-note-create-screen-update-text', async () => {
+      let hVal = this.noteHeader.value;
       let tVal = this.cm.getValue();
       (hVal && tVal)
         ? this.state.changeComponentStateTo('filled')
         : this.state.changeComponentStateTo('init');
     });
   }
+  prepeareTextarea() {
+    this.cm.refresh();
+    this.noteHeader.focus();
+  }
   updateUI() {
-    let noteHeader = this.el('.graph-note-header');
-    let noteText = this.el('.graph-note-text');
-    noteHeader.value = this.state.getData().header;
+    this.noteHeader.value = this.state.getData().header;
     this.cm.setValue(this.state.getData().text);
   }
   /*

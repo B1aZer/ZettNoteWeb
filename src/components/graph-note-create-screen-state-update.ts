@@ -7,6 +7,7 @@ const state = {
     name: 'init',
     data: {
       init: {
+        id: null,
         header: null,
         text: null,
       },
@@ -14,15 +15,10 @@ const state = {
     },
     actions: {
       init: {
-        // Not really necessary
-        // runComponentAction will trigger similar error
-        updateState: (stateData, obj) => Promise.reject(
-          new Error('Not allowed action in this state')
+        updateState: (stateData, obj) => Object.assign(
+          {}, stateData, obj
         ),
-        resetState: (stateData, obj) => Promise.reject(
-          new Error('Not allowed action in this state')
-        ),
-      },
+     },
       filled: {
         updateState: (stateData, obj) => Object.assign(
           {}, stateData, obj
@@ -39,14 +35,21 @@ const state = {
 
 function stateWrapper(app) {
   let stateObj = State.create(state);
-  stateObj['actions']['init']['updateState'] = (stateData) => {
-    app.M.toast({html: 'Fill the header and text', classes: 'rounded'})
+  stateObj['actions']['init']['saveState'] = (stateData) => {
+    app.M.toast({html: 'Not saving same text', classes: 'rounded'})
     return stateData;
   };
   stateObj['actions']['filled']['saveState'] = (stateData) => {
-    let id = uuid(stateData.header);
-    app.storage.set(id, stateData);
+    if (!stateData.id) Promise.reject(new Error('No id provided'));
+    app.storage.set(stateData.id, stateData);
     return stateData;
+  };
+  stateObj['actions']['init']['loadState'] = (stateData) => {
+    if (!stateData.id) Promise.reject(new Error('No id provided'));
+    let newState = app.storage.get(stateData.id);
+    return Object.assign(
+      {}, stateData, newState
+    );
   };
   return stateObj;
 }
