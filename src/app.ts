@@ -58,10 +58,9 @@ export default class App extends Observable {
     // this.renderer = new RendererConsole(this);
     this.renderer = new RendererDOM(this);
 
-    // TODO: history
-    //this.history = new HistoryBrowser(this);
+    this.history = new HistoryBrowser(this);
 
-    this.renderRoot();
+    this.render();
 
     // startup event
     this.fireEvent('graph-note-init');
@@ -78,10 +77,10 @@ export default class App extends Observable {
           });
      */
   }
-  renderRoot() {
+  render() {
     let baseComponent = new RootComponent(this);
     let baseCmpNode = this.renderer.queryCmp(baseComponent.name);
-    baseCmpNode.appendChild(baseComponent.render());
+    baseCmpNode.appendChild(baseComponent.dom);
   }
 }
 
