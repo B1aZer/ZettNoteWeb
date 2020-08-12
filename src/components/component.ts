@@ -93,9 +93,7 @@ export default (function(document) {
       return document.createRange().createContextualFragment(html);
     }
     render() {
-      // component -> DOM el
-      let rendered = this.dom;
-      return rendered;
+      // component (state) -> DOM el
     }
     // TODO move to render
     renderComponents() {
@@ -111,7 +109,7 @@ export default (function(document) {
       for (let comp of this.components) {
         let baseCmp = new comp(this.app);
         let baseNode = this.renderer.queryCmpv2(this.dom, baseCmp.name);
-        this.renderer.append(baseCmp.render(), baseNode);
+        this.renderer.append(baseCmp.dom, baseNode);
       }
     }
   }
