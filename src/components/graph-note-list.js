@@ -29,7 +29,7 @@ export default class NodeListComponent extends Component {
     for (const [hash, props] of nodes) {
       let nodeEl = new GraphNoteNode(this.app, props);
       nodeEl.hash = hash;
-      this.app.renderer.append(nodeEl.render(), nodeContainer);
+      this.app.renderer.append(nodeEl.dom, nodeContainer);
     }
   }
 }
