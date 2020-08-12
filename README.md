@@ -20,6 +20,9 @@ TY.
 
 ## TODO
 
+ - [ ] Do we even need separate stateData? It seems we never use it. Data for all states
+ except init always null. Unity into single propery
+ - [x] why does filled state have null state data? Because init sate has blank data
  - [ ] changeComponentStateTo -> changeStateNameTo
  - [x] an we replace all if's? If creates uncertainty (hence the name). If any type of
  program we want to decrease branching and uncertanty. Replace if with case, ternary,
