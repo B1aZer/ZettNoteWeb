@@ -38,7 +38,7 @@ class State {
     return instances.get(obj);
   }
   getData() {
-    return this.data[this.name];
+    return this.data;
   }
   getName() {
     return this.name;
@@ -56,11 +56,11 @@ class State {
   async runComponentAction(actionName, obj) {
     console.info(`=== Component action ${actionName} start ===`);
     console.info(`=== ${actionName} state name ${this.name} ===`);
-    console.info(`=== ${actionName} state dt ${this.data[this.name]} ===`);
+    console.info(`=== ${actionName} state dt ${this.data} ===`);
     console.info(`=== ${actionName} from`);
-    console.info(this.data[this.name]);
+    console.info(this.data);
     try {
-      this.data[this.name] = await this.actions[this.name][actionName](this.getData(), obj);
+      this.data = await this.actions[this.name][actionName](this.getData(), obj);
     } catch (e) {
       switch (e.constructor) {
         case TypeError:
@@ -71,9 +71,9 @@ class State {
       }
     }
     console.info(`=== ${actionName} to ===`);
-    console.info(this.data[this.name]);
+    console.info(this.data);
     console.info(`=== Component action ${actionName} finish ===`);
-    return this.data[this.name];
+    return this.data;
   }
   /* This methdod does not change state data in any way,
    * we have actions for that,
@@ -81,9 +81,9 @@ class State {
    */
   changeComponentStateTo(newState) {
     // copy data to a new state
-    this.data[newState] = Object.assign({}, this.data[this.name]);
     this.name = newState;
     this.observable.fireEvent(newState);
+    this.observable.fireEvent('*');
     // TODO: move to renderer
     // this will write to to history on each component change
     // we can create start state history method to control state more elegantly

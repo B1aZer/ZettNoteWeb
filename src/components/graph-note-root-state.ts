@@ -7,13 +7,7 @@ export default stateWrapper;
 const state = {
     name: 'init',
     data: {
-      init: {
-        welcomeVisible: true
-      },
-      // we can explicitly define state here
-      // or we can omit stateData for this state
-      // and use actions to create from initial state
-      create: null,
+      welcomeVisible: true
     },
     actions: {
       init: {

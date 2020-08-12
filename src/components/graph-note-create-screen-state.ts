@@ -6,11 +6,8 @@ export default stateWrapper;
 const state = {
     name: 'init',
     data: {
-      init: {
-        header: null,
-        text: null,
-      },
-      filled: null,
+      header: null,
+      text: null,
     },
     actions: {
       init: {
