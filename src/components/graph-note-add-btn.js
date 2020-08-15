@@ -19,13 +19,10 @@ export default class AddBtnComponent extends Component {
   }
   bindListeners() {
     let addBtn = this.el('.graph-note-add');
-    this.app.on('graph-note-add', () => {
+    this.state.on('create', () => {
       addBtn.textContent = 'check';
     })
-    this.app.on('graph-note-list-element-edit', () => {
-      addBtn.textContent = 'check';
-    })
-    this.app.on('graph-note-created', () => {
+    this.state.on('init', () => {
       addBtn.textContent = 'mode_edit';
     })
   }
