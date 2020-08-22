@@ -8,6 +8,7 @@ export default (function(document) {
    * Sublassed by Component
    *
    */
+  // TODO: implements renderer interface
   class RendererDOM {
     constructor(app) {
       this.app = app;
