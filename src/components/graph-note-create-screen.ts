@@ -2,17 +2,10 @@ import './graph-note-create-screen.css';
 import html from './graph-note-create-screen.html';
 import Component from './component';
 import CreateScreenState from './graph-note-create-screen-state';
-import UpdateScreenState from './graph-note-create-screen-state-update';
-import {uuid} from '../utils/common';
 
 export default class CreateScreenComponent extends Component {
 
-  // TODO: This class unaware of renderer and uses component
   cm: any;
-  // TODO: rm
-  id: any;
-  // TODO: history
-  stateHistory: Object;
   noteHeader: any;
   noteText: any;
 
@@ -76,41 +69,6 @@ export default class CreateScreenComponent extends Component {
       });
     */
 
-    this.app.on('graph-note-list-element-edit', async (id) => {
-      this.state = UpdateScreenState(this.app);
-      await this.state.runComponentAction('updateState', {id: id});
-      await this.state.runComponentAction('loadState');
-      this.updateUI();
-      this.app.renderer.classRemove('hide', createEl);
-      this.prepeareTextarea();
-    });
-    this.app.on('graph-note-add', () => {
-      this.state = CreateScreenState(this.app);
-      this.app.renderer.classRemove('hide', createEl);
-      this.noteHeader.value = new Date().toLocaleDateString('en-US');
-      this.prepeareTextarea();
-    });
-    this.app.on('graph-note-create', async () => {
-      await this.state.runComponentAction('updateState', {
-        header: this.noteHeader.value,
-        text: this.cm.getValue(),
-      });
-      await this.state.runComponentAction('saveState');
-      this.app.fireEvent('graph-note-created');
-    });
-    this.app.on('graph-note-created', async () => {
-      this.app.renderer.classAdd('hide', createEl);
-      await this.state.runComponentAction('resetState')
-      this.updateUI();
-      this.state.changeComponentStateTo('init');
-    });
-    this.app.on('graph-note-create-screen-update-text', async () => {
-      let hVal = this.noteHeader.value;
-      let tVal = this.cm.getValue();
-      (hVal && tVal)
-        ? this.state.changeComponentStateTo('filled')
-        : this.state.changeComponentStateTo('init');
-    });
   }
   prepeareTextarea() {
     this.cm.refresh();

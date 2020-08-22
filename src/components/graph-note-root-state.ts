@@ -24,6 +24,13 @@ const state = {
           });
         },
       },
+      update: {
+        toggleElement: (stateData) => {
+          return Object.assign({}, stateData, {
+            welcomeVisible: true,
+          });
+        },
+      },
     }
 };
 

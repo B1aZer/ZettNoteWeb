@@ -2,6 +2,7 @@ import html from './graph-note-root.html';
 import Component from './component';
 import AddBtnComponent from './graph-note-add-btn';
 import CreateScreenComponent from './graph-note-create-screen';
+import UpdateScreenComponent from './graph-note-create-screen-update';
 import NodeListComponent from './graph-note-list';
 import RootState from './graph-note-root-state';
 
@@ -13,7 +14,7 @@ export default class RootComponent extends Component {
     this.name = 'graph-note-root';
     this.state = RootState(this.app);
     this.dom = this.renderFragment(html.interpolate(this.state.getData()));
-    this.components = [AddBtnComponent, CreateScreenComponent, NodeListComponent];
+    this.components = [AddBtnComponent, CreateScreenComponent, UpdateScreenComponent, NodeListComponent];
   }
   initState() {
     // TODO: for info only
@@ -52,7 +53,7 @@ export default class RootComponent extends Component {
     });
     this.app.on('graph-note-list-element-edit', async () => {
       await this.state.runComponentAction('toggleElement');
-      this.state.changeComponentStateTo('create');
+      this.state.changeComponentStateTo('update');
     });
     this.app.on('graph-note-created', async () => {
       await this.state.runComponentAction('toggleElement');
