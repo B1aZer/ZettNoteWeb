@@ -28,5 +28,5 @@ const state = {
 };
 
 function stateWrapper(app) {
-  return State.create(state);
+  return State.create(app, state);
 }
