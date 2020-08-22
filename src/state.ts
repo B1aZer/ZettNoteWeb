@@ -21,16 +21,13 @@ class State {
     this.actions = obj.actions || {};
     // TODO: Proxy can be used to track changes
     this.observable = new Observable();
-    // TODO: tracks state for each component
-    // {h: this}
-    //this.stateHistory = {};
-    // TODO: history TEST
-    /*
-    this.app.on('graph-note-history-change-state', () => {
-      let h = this.app.history.getStateData().hash;
-      if (this.stateHistory[h]) {
-        this.changeComponentStateTo(this.stateHistory[h], false);
-      }
+    this.stateHistory = new Map();
+    // save init state
+    this.app.on('graph-note-init', () => {
+      this.changeComponentStateTo('init');
+    });
+    this.app.on('graph-note-history-change-state', (key) => {
+      this.loadHistory(key);
     });
   }
   static create(app, obj) {
@@ -82,9 +79,11 @@ class State {
    * we have actions for that,
    * It saves current state and transitions state
    */
-  changeComponentStateTo(newState) {
+  changeComponentStateTo(newState, save=true) {
     // copy data to a new state
+    //if (this.name === newState) return;
     this.name = newState;
+    if (save) this.saveHistory();
     this.observable.fireEvent(newState);
     this.observable.fireEvent('*');
     // TODO: move to renderer
@@ -116,6 +115,27 @@ class State {
       this.pres = this.state;
     }
     */
+  }
+  saveHistory() {
+    let h = uuid(this.getName());
+    // 1. this creates a potential memory leak
+    // we probably can use weakmap since value can be any object, class or weakmap
+    // and use {h: h} as key, but how to save this key for retrieval?
+    // 2. we can only save all state (with all actions)
+    // because state (and it's actions) can be changed at any time
+    this.stateHistory.set(h, {name: this.name, data: this.data});
+    console.info(this.data);
+    this.app.history.saveState(h);
+  }
+  loadHistory(key) {
+    let stateObj = this.stateHistory.get(key);
+    // if no state found by this hash in state history
+    if (!stateObj) return;
+    console.info(stateObj.data);
+    this.data = Object.assign({}, this.data, stateObj.data);
+    this.changeComponentStateTo(stateObj.name, false);
+    this.observable.fireEvent('*');
+    //this.observable.fireEvent('history');
   }
 }
 
