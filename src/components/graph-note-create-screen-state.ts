@@ -38,7 +38,7 @@ function stateWrapper(app) {
   let stateObj = State.create(app, state);
   stateObj['actions']['init']['saveState'] = (stateData) => {
     app.M.toast({html: 'Fill the header and text', classes: 'rounded'})
-    return stateData;
+    return Promise.reject(new Error('No data to save'));
   };
   stateObj['actions']['filled']['saveState'] = (stateData) => {
     let id = uuid(stateData.header);
