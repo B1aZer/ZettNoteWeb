@@ -61,18 +61,30 @@ export default class RootComponent extends Component {
   }
   bindListeners() {
     let welcomeEl = this.el('.graph-note-welcome');
-    let listEl = this.el('.graph-note-node-list');
+    let listEl = this.el('graph-note-list');
+    let createEl = this.el('graph-note-create-screen');
+    let updateEl = this.el('graph-note-create-screen-update');
     this.state.on('create', () => {
       welcomeEl.classList.add('scale-out');
       welcomeEl.classList.add('hide');
       listEl.classList.add('scale-out');
       listEl.classList.add('hide');
+      createEl.classList.remove('hide');
+    });
+    this.state.on('update', () => {
+      welcomeEl.classList.add('scale-out');
+      welcomeEl.classList.add('hide');
+      listEl.classList.add('scale-out');
+      listEl.classList.add('hide');
+      updateEl.classList.remove('hide');
     });
     this.state.on('init', () => {
       welcomeEl.classList.remove('scale-out');
       welcomeEl.classList.remove('hide');
       listEl.classList.remove('hide');
       listEl.classList.remove('scale-out');
+      createEl.classList.add('hide');
+      updateEl.classList.add('hide');
     });
   }
 }
