@@ -7,8 +7,8 @@ const state = {
     name: 'init',
     data: {
       id: null,
-      header: null,
-      text: null,
+      header: '',
+      text: '',
     },
     actions: {
       init: {
@@ -31,7 +31,7 @@ const state = {
 }
 
 function stateWrapper(app) {
-  let stateObj = State.create(state);
+  let stateObj = State.create(app, state);
   stateObj['actions']['init']['saveState'] = (stateData) => {
     app.M.toast({html: 'Not saving same text', classes: 'rounded'})
     return stateData;
