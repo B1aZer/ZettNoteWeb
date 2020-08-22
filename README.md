@@ -20,10 +20,33 @@ TY.
 
 ## TODO
 
- - [ ] Do we even need separate stateData? It seems we never use it. Data for all states
+ - [ ] markdown rerender issue
+ - [ ] mobile app
+ - [ ] how to make friends of 2 states in 1 component? Do we even need to? Or merge
+ everything into 1? Create update cmp that exends create cmp
+ - bindEvents = listen to DOM events, fire app events
+ - mutState = run actions based on app events, leads to component state
+ - bindListenets = logic based on state changes
+ - [ ] fix this in callback (create)
+ - [ ] create hide adds class by itself, in contrast to root
+ - [x] create state update (create:132)
+ - [x] move all history to component/ or even state.ts
+ - [x] send init event on init and save history state. This will allow us to go back once
+ component state changes at lease once
+ - [x] do we need init state to send event?
+ - [x] or be saved as history state? Probably Yes
+ - [ ] what purpose changeComponentStateTo plays?
+   - 1) It activates another set of methods on currents data
+   - 2) It saves current data as history state
+ - [x] for history to work seamlessly we need each component with state (because history
+ can only work w statefull Components) to have a render method. When state arrives and
+ replaces current state, render renders state to DOM
+ - [ ] clean up create-component
+ - [x] move history to component. To state
+ - [ ] changeComponentStateTo -> changeStateNameTo
+ - [x] Do we even need separate stateData? It seems we never use it. Data for all states
  except init always null. Unity into single propery
  - [x] why does filled state have null state data? Because init sate has blank data
- - [ ] changeComponentStateTo -> changeStateNameTo
  - [x] an we replace all if's? If creates uncertainty (hence the name). If any type of
  program we want to decrease branching and uncertanty. Replace if with case, ternary,
  Monad. Or use separate function. Only use if for argument checking. Replace it later with
@@ -44,11 +67,13 @@ TY.
  - [x] how do we create/update state?
  - [x] update action state example below
  - [x] update element
+ - [ ] [Dropbox upload code ref](https://github.com/dropbox/dropbox-sdk-js/blob/master/examples/javascript/upload/index.html)
+ - [ ] [Dropbox sdk](https://www.dropbox.com/developers/documentation/javascript#tutorial)
  - [ ] dropbox storage should have the same interface as storage local
  - [x] move fireEvent to action (create)
  - [x] async/await actions
  - [ ] make uuid compatible with vim
- - [.] remove meterialize, keep icon. Use toastr
+ - [x] remove meterialize, keep icon. Use toastr
  - [x] IT seems the obvious solution is to use component from where event is fired. Check
  if all events fired from component's sc. Will not work because events fired from
  different structures
@@ -85,11 +110,12 @@ TY.
  - [ ] Rethink state and state transition. state compl, how do we save and restore data,actions,name?
  - [ ] it should be easy to remove components just from html markup, parse html and call
  new Component
- - [ ] Beutify code, make less, but working
+ - [x] Beutify code, make less, but working
  - [ ] Minimal responsive UI for note creation
- - [ ] Codemirror with markdown syntax
+ - [x] Codemirror with markdown syntax
  - [ ] Note saved to shared storage (Dropbox)
  - [ ] Offline support
+ - [ ] App support
 
 ## Component actions
 
