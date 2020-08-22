@@ -1,4 +1,5 @@
 import Observable from './utils/observable.js';
+import {uuid} from './utils/common';
 
 export default (function(Observable) {
 
@@ -6,12 +7,15 @@ let instances = new WeakMap();
 
 class State {
 
+  app: any;
   name: string;
   data: Object;
   actions: Object;
   private observable: Observable;
+  stateHistory: any;
 
-  constructor(obj) {
+  constructor(app, obj) {
+    this.app = app;
     this.name = obj.name || '';
     this.data = obj.data || {};
     this.actions = obj.actions || {};
@@ -28,11 +32,10 @@ class State {
         this.changeComponentStateTo(this.stateHistory[h], false);
       }
     });
-    */
   }
-  static create(obj) {
+  static create(app, obj) {
     if (!instances.has(obj)) {
-      let instance = new State(obj);
+      let instance = new State(app, obj);
       instances.set(obj, instance);
     }
     return instances.get(obj);

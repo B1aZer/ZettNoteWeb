@@ -16,17 +16,43 @@ export default class CreateScreenComponent extends Component {
     // UI
     this.noteHeader = this.el('.graph-note-header');
     this.noteText = this.el('.graph-note-text');
+    this.cm = this.app.CodeMirror.fromTextArea(this.noteText, {
+      linenumbers: true,
+      mode: "markdown",
+    });
   }
   bindEvents() {
     this.noteHeader.addEvent('change', () => {
       this.app.fireEvent('graph-note-create-screen-update-text');
     });
-    this.cm = this.app.CodeMirror.fromTextArea(this.noteText, {
-      linenumbers: true,
-      mode: "markdown",
-    });
-    this.cm.on('change', () => {
+    this.cm.on('change', (cm, attrs) => {
+      // do not trigger change if changed by api
+      if (attrs.origin === 'setValue') return;
       this.app.fireEvent('graph-note-create-screen-update-text');
+    });
+  }
+  mutateState() {
+    this.app.on('graph-note-create-screen-update-text', async () => {
+      let hVal = this.noteHeader.value;
+      let tVal = this.cm.getValue();
+      await this.state.runComponentAction('updateState', {
+        header: hVal,
+        text: tVal,
+      });
+      (hVal && tVal)
+        ? this.state.changeComponentStateTo('filled')
+        : this.state.changeComponentStateTo('init');
+    });
+    this.app.on('graph-note-add', () => {
+      this.noteHeader.value = new Date().toLocaleDateString('en-US');
+    });
+    this.app.on('graph-note-create', async () => {
+      await this.state.runComponentAction('saveState');
+      this.app.fireEvent('graph-note-created');
+    });
+    this.app.on('graph-note-created', async () => {
+      await this.state.runComponentAction('resetState')
+      this.state.changeComponentStateTo('init');
     });
   }
   bindListeners() {
@@ -36,17 +62,16 @@ export default class CreateScreenComponent extends Component {
     // TODO: history
     // save state
     this.state.on('*', () => {
-      let h = uuid(this.state.getName());
-      this.stateHistory[h] = {name: this.state.getName(), data: this.state.getData()};
-      this.app.history.saveState(h);
+      console.info('render');
+      this.render()
     });
 
     // load state
     this.app.on('graph-note-history-change-state', (h) => {
       this.state.runComponentAction('updateState', this.stateHistory[h]);
     });
-
     /*
+     * chips logic
       let parentsChips = this.el('.chips-autocomplete');
 
       let chipsInstance;
