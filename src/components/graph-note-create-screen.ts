@@ -74,7 +74,7 @@ export default class CreateScreenComponent extends Component {
     this.cm.refresh();
     this.noteHeader.focus();
   }
-  updateUI() {
+  render() {
     this.noteHeader.value = this.state.getData().header;
     this.cm.setValue(this.state.getData().text);
   }
